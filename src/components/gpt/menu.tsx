@@ -28,7 +28,7 @@ export default function Menu({
         try {
             setDeletingConversationId(conversationId)
             await deleteAiConversation(conversationId)
-            await loadConversations()
+            loadConversations()
 
             if (conversationId === id) {
                 router.push('/ai')
@@ -57,7 +57,7 @@ export default function Menu({
     return (
         <aside
             className='flex min-h-0 flex-col border-b border-(--color-border-default)
-                bg-(--color-bg-surface) px-4 py-4 1000px:border-r 1000px:border-b-0
+                bg-(--color-bg-surface) p-3 1000px:border-r 1000px:border-b-0
                 1000px:px-5'
         >
             {/* new chat */}
@@ -71,7 +71,7 @@ export default function Menu({
             </Link>
 
             {/* previous chats header */}
-            <div className='mt-5 flex items-center justify-between'>
+            <div className='mt-4 flex items-center justify-between'>
                 <h2 className='text-xs font-semibold tracking-[0.18em] text-(--color-text-discreet)'>
                     {text.previousChats}
                 </h2>
@@ -81,7 +81,7 @@ export default function Menu({
             </div>
 
             {/* previous chats */}
-            <div className='mt-4 flex-1 space-y-2 overflow-y-auto pr-1'>
+            <div className='mt-2 flex-1 overflow-y-auto'>
                 {conversations.map((conversation) => {
                     const isActive = conversation.id === id
 
@@ -89,17 +89,17 @@ export default function Menu({
                         <button
                             key={conversation.id}
                             onClick={() => router.push(`/ai/${conversation.id}`)}
-                            className={`group w-full rounded-lg p-3 text-left transition
+                            className={`group w-full rounded-lg p-2 text-left transition
                                 ${getConversationClassName(isActive)}`}
                         >
                             <div className='flex items-start justify-between gap-3'>
-                                <p className='line-clamp-2 text-sm font-semibold text-(--color-text-main)'>
+                                <p className='text-sm text-(--color-text-main)'>
                                     {conversation.title}
                                 </p>
                                 <span className='flex shrink-0 items-center'>
                                     <Trash2
                                         onClick={(event) =>
-                                            void handleDeleteConversation(event, conversation.id)}
+                                            handleDeleteConversation(event, conversation.id)}
                                         className={`h-4 w-4 opacity-0 transition group-hover:opacity-60
                                             hover:opacity-100 ${getDeleteIconClassName(conversation.id)}`}
                                     />
