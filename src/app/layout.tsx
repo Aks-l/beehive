@@ -20,14 +20,21 @@ export default async function layout({ children }: { children: ReactNode }) {
     const path = (await Headers).get('x-current-path') || ''
     const page = path.split('/').pop()
     const dashboard = path.includes('dashboard')
-    const hideFooter = page === 'pwned' || path.includes('dashboard') || path.startsWith('/ai/')
+    const aiChat = path.startsWith('/ai/')
+    const hideFooter = page === 'pwned' || path.includes('dashboard') || aiChat
     const pwnedHeaderClassName = 'fixed top-0 z-900 w-full bg-(--color-bg-topbar-fallback) '
         + 'supports-[backdrop-filter:blur(0px)]:bg-(--color-bg-topbar) '
         + 'supports-[backdrop-filter:blur(0px)]:backdrop-blur-[20px]'
 
     return (
         <html test-id='root' lang='en' className={theme}>
-            <body className={clsx('min-h-screen w-full bg-(--color-bg-body)', dashboard && 'max-h-screen overflow-hidden')}>
+            <body
+                className={clsx(
+                    'min-h-screen w-full bg-(--color-bg-body)',
+                    dashboard && 'max-h-screen overflow-hidden',
+                    aiChat && 'h-dvh overflow-hidden'
+                )}
+            >
                 {page !== 'pwned' ? (
                     <header className='fixed top-0 z-900 w-full'>
                         <TopBar onlyLogo={dashboard} />
@@ -39,7 +46,16 @@ export default async function layout({ children }: { children: ReactNode }) {
                         </header>
                     )
                 )}
-                <main className='w-full mx-auto mt-(--h-topbar) min-h-[calc(100vh-var(--h-topbar))]'>{children}</main>
+                <main
+                    className={clsx(
+                        'w-full mx-auto mt-(--h-topbar)',
+                        aiChat
+                            ? 'h-[calc(100dvh-var(--h-topbar))] min-h-0 overflow-hidden'
+                            : 'min-h-[calc(100vh-var(--h-topbar))]'
+                    )}
+                >
+                    {children}
+                </main>
                 {!hideFooter && (
                     <footer className='bg-(--color-bg-footer)'>
                         <Footer />

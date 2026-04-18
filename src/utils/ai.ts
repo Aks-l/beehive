@@ -15,6 +15,12 @@ export async function createAiConversation(clientName: string): Promise<StoredCo
     })
 }
 
+export async function deleteAiConversation(id: string): Promise<void> {
+    await fetchAi<void>(`/ai/conversations/${id}`, {
+        method: 'DELETE',
+    })
+}
+
 export async function switchAiConversationClient(id: string, clientName: string): Promise<StoredConversation> {
     return fetchAi<StoredConversation>(`/ai/conversations/${id}/switch-client`, {
         method: 'POST',
@@ -34,6 +40,10 @@ async function fetchAi<T>(path: string, init?: RequestInit): Promise<T> {
     if (!response.ok) {
         const text = await response.text()
         throw new Error(text || 'Failed to load AI data.')
+    }
+
+    if (response.status === 204) {
+        return undefined as T
     }
 
     return response.json() as Promise<T>

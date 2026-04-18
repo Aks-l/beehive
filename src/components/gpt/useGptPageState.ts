@@ -227,6 +227,13 @@ export default function useGptPageState() {
     }
 }
 
+export function createChatSessionFromStoredConversation(
+    conversation: StoredConversation,
+    activeClient: GPT_Client | null = null
+) {
+    return mapStoredConversationToSession(conversation, activeClient)
+}
+
 function handleSocketMessage(
     msg: GptSocketMessage,
     setChatSession: React.Dispatch<React.SetStateAction<ChatSession | null>>,

@@ -818,6 +818,31 @@ declare global {
         switchConversationClient: (conversationId: string, clientName: string) => Promise<ChatSession | null>
     }
 
+    type AIText = {
+        newChat: string
+        previousChats: string
+        loading: string
+        noMessages: string
+        titleFallback: string
+        agent: string
+        loadingConversation: string
+        notFound: string
+        liveConnection: string
+        reconnecting: string
+        modelUnavailable: string
+        handoffDescription: string
+        switching: string
+        continueOnAnotherModel: string
+        notFoundTitle: string
+        notFoundDescription: string
+        thinking: string
+        copy: string
+        copied: string
+        delete: string
+        askFollowup: string
+        connectToModel: string
+    }
+
     interface ExtendedNavigator extends Navigator {
         globalPrivacyControl: boolean
     }

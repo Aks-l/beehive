@@ -43,6 +43,9 @@
         "notFoundTitle": "Fant ikke samtalen",
         "notFoundDescription": "Velg en annen samtale til venstre eller start en ny.",
         "thinking": "Tenker...",
+        "copy": "Kopier",
+        "copied": "Kopiert",
+        "delete": "Slett",
         "askFollowup": "Still et oppfølgingsspørsmål...",
         "connectToModel": "Koble til en tilgjengelig modell for å fortsette denne samtalen."
     }

@@ -43,6 +43,9 @@
         "notFoundTitle": "Conversation not found",
         "notFoundDescription": "Choose another chat on the left or start a new one.",
         "thinking": "Thinking...",
+        "copy": "Copy",
+        "copied": "Copied",
+        "delete": "Delete",
         "askFollowup": "Ask a follow-up question...",
         "connectToModel": "Connect to an available model to continue this chat."
     }
