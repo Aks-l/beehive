@@ -21,7 +21,6 @@ COPY --from=builder --chown=app:app /app/public ./public
 
 COPY default.vcl /etc/varnish/default.vcl
 
-RUN chown app:app /app
 RUN chown app:app /etc/varnish
 RUN chown app:app /var/lib/varnish
 USER app
