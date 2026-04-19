@@ -9,13 +9,14 @@ import 'uibee/styles'
 import './globals.css'
 import clsx from '@utils/clsx'
 import Alerts from '@components/alerts/alerts'
+import { normalizeLang } from '@utils/lang'
 export { default as metadata } from './metadata'
 export { default as viewport } from './metadata'
 
 export default async function layout({ children }: { children: ReactNode }) {
     const Cookies = await cookies()
     const theme = Cookies.get('theme')?.value || 'dark'
-    const lang = (Cookies.get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang(Cookies.get('lang')?.value)
     const Headers = headers()
     const path = (await Headers).get('x-current-path') || ''
     const page = path.split('/').pop()
@@ -27,7 +28,7 @@ export default async function layout({ children }: { children: ReactNode }) {
         + 'supports-[backdrop-filter:blur(0px)]:backdrop-blur-[20px]'
 
     return (
-        <html test-id='root' lang='en' className={theme}>
+        <html test-id='root' lang={lang === 'no' ? 'nb' : 'en'} className={theme}>
             <body
                 className={clsx(
                     'min-h-screen w-full bg-(--color-bg-body)',

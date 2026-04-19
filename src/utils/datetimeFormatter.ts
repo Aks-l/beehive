@@ -1,3 +1,5 @@
+import { normalizeLang } from '@utils/lang'
+
 process.env.TZ = 'Europe/Oslo'
 
 type KeyStringArray = {
@@ -64,6 +66,8 @@ export function formatTimeHHMM(dateTime: Date) {
 // if current year: "15. sep, 12:00"
 // if more than a year diff year: "2020, 15. sep, 12:00"
 export function formatPublishedDate(dateTime: Date, lang='en') {
+    lang = normalizeLang(lang)
+
     const now = new Date()
     const minutesAgo = Math.floor((now.getTime() - dateTime.getTime()) / (1000 * 60))
 
@@ -75,7 +79,7 @@ export function formatPublishedDate(dateTime: Date, lang='en') {
     const oneDay = 24 * 60 * 60 * 1000
     const dayDif = (nowDay.getTime() - dtDay.getTime()) / oneDay
 
-    const timeExpration: KeyStringArray = {
+    const timeExpiration: KeyStringArray = {
         en: ['minutes ago'],
         no: ['minutter siden']
     }
@@ -93,7 +97,7 @@ export function formatPublishedDate(dateTime: Date, lang='en') {
     }
 
     if (minutesAgo < 60) {
-        return `${minutesAgo} ${timeExpration[lang]![0]!}`
+        return `${minutesAgo} ${timeExpiration[lang]![0]!}`
     }
 
     const hours = dateTime.getHours()
@@ -125,6 +129,8 @@ export function formatPublishedDate(dateTime: Date, lang='en') {
 // if more than a year dif: "2050, Man 15. sep, 15:00"
 // if deadline has pased: "Expired"
 export function formatDeadlineDate(dateTime: Date, lang='en') {
+    lang = normalizeLang(lang)
+
     const now = new Date()
     if(dateTime < now) {
         return (lang === 'no' ? 'Utløpte: ' : 'Expired: ') + formatPublishedDate(dateTime, lang)
@@ -179,6 +185,7 @@ export function formatDeadlineDate(dateTime: Date, lang='en') {
 // if else name of week: "Monday"
 // if dif year in the future: "3000"
 export function formatEventStatusDate(startDate: Date, endDate: Date, lang='no') {
+    lang = normalizeLang(lang)
     const now = new Date()
 
     if (now > startDate && now < endDate) {
@@ -217,6 +224,7 @@ export function formatEventStatusDate(startDate: Date, endDate: Date, lang='no')
 // return example: "Mon, 12:00"
 // if more than a year dif: "2020, Mon, 12:00"
 export function formatEventStartDate(dateTime: Date, lang='en') {
+    lang = normalizeLang(lang)
     const now = new Date()
     const hours = dateTime.getHours()
     const minutes = dateTime.getMinutes()

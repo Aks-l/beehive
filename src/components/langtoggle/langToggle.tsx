@@ -5,6 +5,7 @@ import Language from '@components/svg/symbols/language'
 import { getCookie, setCookie } from 'utilbee/utils'
 import { useRouter } from 'next/navigation'
 import clsx from '@utils/clsx'
+import { normalizeLang } from '@utils/lang'
 
 export let language = 'no'
 
@@ -19,10 +20,7 @@ export default function LangToggle({serverLang}: LangToggleProps) {
     const router = useRouter()
 
     useEffect(() => {
-        const savedLang = getCookie('lang') as 'no' | 'en'
-        if (savedLang) {
-            setLang(savedLang)
-        }
+        setLang(normalizeLang(getCookie('lang')))
     }, [])
 
     function handleClick() {

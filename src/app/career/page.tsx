@@ -6,6 +6,7 @@ import no from '@text/jobadList/no.json'
 import en from '@text/jobadList/en.json'
 import { cookies } from 'next/headers'
 import FilterItem from '@components/filter/filterItem'
+import { normalizeLang } from '@utils/lang'
 
 export default async function Jobads({ searchParams }: { searchParams: Promise<{ [key: string]: string | undefined }> }) {
     const filters = await searchParams
@@ -14,7 +15,7 @@ export default async function Jobads({ searchParams }: { searchParams: Promise<{
     const cities = typeof filters.cities === 'string' ? filters.cities : null
     const skills = typeof filters.skills === 'string' ? filters.skills : null
 
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

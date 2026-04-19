@@ -11,9 +11,10 @@ import HourglassBottom from '@components/svg/symbols/hourglassBottom'
 import { cookies } from 'next/headers'
 import DefaultJobBanner from '@components/svg/defaultbanners/defaultJobBanner'
 import clsx from '@utils/clsx'
+import { normalizeLang } from '@utils/lang'
 
 export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
 
     // eslint-disable-next-line
     function useTags(publishTime: any, highlight: any) {
@@ -28,15 +29,11 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
         'z-50 grid w-full items-center gap-y-2 rounded-(--border-radius) bg-(--color-bg-body)',
         'p-4 transition-all duration-200 group-hover:bg-(--color-bg-surface)',
         'whitespace-pre-line hyphens-auto wrap-break-word',
-        'grid-cols-1 [grid-template-areas:\'pic\'\'info\']',
+        'grid-cols-1',
         '400px:grid-cols-[auto_1fr] 400px:gap-x-4 400px:p-3',
-        '400px:[grid-template-areas:\'pic_info\']',
         '600px:p-4',
         '800px:gap-x-8 800px:gap-y-2 800px:p-4',
-        '800px:[grid-template-areas:\'pic_info\']',
-        showTags && '400px:[grid-template-areas:\'tags_tags\'\'pic_info\']',
-        showTags && '400px:grid-rows-[1.6rem_auto]',
-        showTags && '800px:[grid-template-areas:\'pic_tags\'\'pic_info\']'
+        showTags && '400px:grid-rows-[1.6rem_auto]'
     )
 
     const detailClassName = clsx(
@@ -59,7 +56,7 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
                 <div className={wrapperClassName}
                 >
                     {showTags &&
-                        <div className='flex h-min gap-2 [grid-area:tags]'>
+                        <div className='flex h-min gap-2 400px:col-span-2 800px:col-start-2 800px:col-end-3 800px:row-start-1'>
                             <Tags
                                 highlight={jobad.highlight}
                                 timePublish={new Date(jobad.time_publish)}
@@ -72,7 +69,8 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
                     <div
                         className={clsx(
                             'relative flex aspect-5/2 h-20 w-50 items-center justify-center rounded-(--border-radius)',
-                            'bg-(--color-border-default) [grid-area:pic]'
+                            'bg-(--color-border-default)',
+                            '400px:row-start-2 800px:row-span-2 800px:row-start-1'
                         )}
                     >
                         {jobad.organization.logo ? (
@@ -98,7 +96,7 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
                             />
                         )}
                     </div>
-                    <div className='[grid-area:info]'>
+                    <div className='400px:row-start-2 800px:row-start-2'>
                         <div className='inline-block text-[1.2rem] leading-[1.4em] 600px:text-[1.3rem] 800px:text-[1.5rem]'>
                             {lang === 'en' && jobad.title_en ? jobad.title_en : jobad.title_no}
                         </div>
@@ -138,7 +136,6 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
 }
 
 function formatCities(cities: unknown[]) {
-
     const characterLimit = 30
     let counter = 0
     const arr = []

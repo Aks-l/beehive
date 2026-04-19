@@ -5,6 +5,7 @@ import Alert from '@components/alert/alert'
 import { getCookie, setCookie } from 'utilbee/utils'
 import { usePathname } from 'next/navigation'
 import { X } from 'lucide-react'
+import { normalizeLang } from '@utils/lang'
 
 export default function Alerts() {
     const [alert, setAlert] = useState<GetAlertProps | null>(null)
@@ -13,7 +14,7 @@ export default function Alerts() {
     const [duration, setDuration] = useState(5000)
 
     const pathname = usePathname()
-    const lang = (getCookie('lang') || 'no') as Lang
+    const lang = normalizeLang(getCookie('lang'))
 
 
     function calculateDuration(text: string) {

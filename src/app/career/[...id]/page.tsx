@@ -16,6 +16,7 @@ import Image from 'next/image'
 import Alert from '@components/alert/alert'
 import Wrench from '@components/svg/symbols/wrench'
 import DefaultJobBanner from '@components/svg/defaultbanners/defaultJobBanner'
+import { normalizeLang } from '@utils/lang'
 
 function deadlineWarning(deadline: Date) {
     const now = new Date()
@@ -29,23 +30,21 @@ export default async function JobadPage({ params }: PromisedPageProps) {
     const id = (await params).id
     const jobads = await getJob(Number(id))
     const jobad = typeof jobads === 'object' ? jobads : null
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
     const temp_empty = lang === 'no' ? 'Oi! Her var det tomt... ' : 'Oh! Looks empty... '
-    const jobadPageLayoutClass =
-        'grid items-start grid-cols-1 ' +
-        (jobad?.banner_image
-            ? '[grid-template-areas:\'ban\'\'det\'\'des\'] 800px:[grid-template-areas:\'det_ban\'\'det_des\'] '
-            : '[grid-template-areas:\'det\'\'des\'] 800px:[grid-template-areas:\'det_des\'\'det_.\'] ') +
-        '800px:grid-cols-[20rem_auto] 800px:gap-x-[5%] 800px:pt-12 800px:px-8 ' +
-        '800px:max-w-[calc(var(--w-page)+4rem)] 800px:mx-auto'
+    const jobadPageLayoutClass = 'grid items-start grid-cols-1 gap-y-6 '
+        + '800px:grid-cols-[20rem_minmax(0,1fr)] 800px:gap-x-[5%] 800px:gap-y-8 800px:pt-12 800px:px-8 '
+        + '800px:max-w-[calc(var(--w-page)+4rem)] 800px:mx-auto'
+
     return (
         <>
             {jobad && (
                 <div className={jobadPageLayoutClass}>
                     <div
-                        className='[grid-area:det] w-full py-8 px-4 bg-(--color-bg-surface) relative 450px:p-8
-                            800px:p-0 800px:bg-none
+                        className='w-full py-8 px-4 overflow-hidden relative 450px:p-8
+                            800px:p-0
+                            800px:row-span-2
                             800px:before:content-[""] 800px:before:w-[2.6rem] 800px:before:h-[2.6rem]
                             800px:before:absolute 800px:before:border-[0.7rem]
                             800px:before:border-(--color-border-default)
@@ -57,147 +56,157 @@ export default async function JobadPage({ params }: PromisedPageProps) {
                             800px:after:border-solid 800px:after:border-t-0 800px:after:border-r-0
                             800px:after:bottom-0 800px:after:left-0 800px:after:transition'
                     >
-                        <div className='flex flex-row flex-wrap gap-4 mb-8 800px:flex-col'>
-                            <div
-                                className='relative block w-40 h-auto aspect-5/2 rounded-(--border-radius) overflow-hidden
-                                    450px:w-48 800px:w-56'
-                            >
-                                {jobad?.organization?.logo ? (
-                                    <Image
-                                        src={`${config.url.cdn}/img/organizations/${jobad.organization.logo}`}
-                                        alt={jobad.organization.logo ?? 'Organization logo'}
-                                        fill
-                                        objectFit='contain'
-                                        objectPosition='top'
-                                    />
-                                ) : (
-                                    <DefaultJobBanner color='#545b5f' className='h-full w-full' transition={true} />
-                                )}
+                        <div className='flex h-full flex-col'>
+                            <div className='flex flex-row flex-wrap gap-4 mb-8 800px:flex-col 800px:mr-[1.3rem]'>
+                                <div
+                                    className='relative block w-40 h-auto aspect-5/2 self-start rounded-(--border-radius)
+                                        overflow-hidden 450px:w-48 800px:w-56'
+                                >
+                                    {jobad?.organization?.logo ? (
+                                        <Image
+                                            src={`${config.url.cdn}/img/organizations/${jobad.organization.logo}`}
+                                            alt={jobad.organization.logo ?? 'Organization logo'}
+                                            fill
+                                            className='object-contain object-center'
+                                        />
+                                    ) : (
+                                        <DefaultJobBanner color='#545b5f' className='h-full w-full' transition={true} />
+                                    )}
+                                </div>
+                                <div className='text-[1.5rem] my-auto leading-[1.4em] whitespace-pre-line wrap-break-word hyphens-auto'>
+                                    {/* @ts-ignore */}
+                                    {jobad.organization.link_homepage ? (
+                                        <a
+                                            className='flex flex-row items-center hover:underline'
+                                            // @ts-ignore
+                                            href={jobad.organization.link_homepage}
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {/* @ts-ignore */}
+                                            {lang === 'en' && jobad.organization.name_en
+                                                ? jobad.organization.name_en
+                                                : `${jobad.organization.name_no} `}
+                                            <ArrowOutward className='w-[1.6rem] h-[1.6rem] fill-(--color-text-main)' />
+                                        </a>
+                                    ) : (
+                                        <>
+                                            {lang === 'en' && jobad.organization.name_en
+                                                ? jobad.organization.name_en
+                                                : jobad.organization.name_no}
+                                        </>
+                                    )}
+                                </div>
                             </div>
-                            <div className='text-[1.5rem] my-auto leading-[1.4em] whitespace-pre-line wrap-break-word hyphens-auto'>
-                                {/* @ts-ignore */}
-                                {jobad.organization.link_homepage ? (
-                                    <a
-                                        className='flex flex-row items-center hover:underline'
+                            <div className='grid grid-cols-[min-content_auto] gap-4 mb-12'>
+                                <div className='text-(--color-text-discreet) inline-flex items-start'>
+                                    <HourglassBottom
+                                        className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
+                                    />
+                                    {text.details.deadline}:
+                                </div>
+                                <div className='jobad-details_value'>
+                                    {formatDeadlineDate(
                                         // @ts-ignore
-                                        href={jobad.organization.link_homepage}
-                                        target='_blank'
-                                        rel='noreferrer'
-                                    >
-                                        {/* @ts-ignore */}
-                                        {lang && jobad.organization.name_en ? jobad.organization.name_en : jobad.organization.name_no + ' '}
-                                        <ArrowOutward className='w-[1.6rem] h-[1.6rem] fill-(--color-text-main)' />
-                                    </a>
-                                ) : (
-                                    <>{lang ? jobad.organization.name_en : jobad.organization.name_no}</>
-                                )}
-                            </div>
-                        </div>
-                        <div className='grid grid-cols-[min-content_auto] gap-4 mb-12'>
-                            <div className='text-(--color-text-discreet) inline-flex items-start'>
-                                <HourglassBottom
-                                    className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
-                                />
-                                {text.details.deadline}:
-                            </div>
-                            <div className='jobad-details_value'>
-                                {formatDeadlineDate(
-                                    // @ts-ignore
-                                    new Date(jobad.time_expire),
-                                    lang,
-                                )}
+                                        new Date(jobad.time_expire),
+                                        lang,
+                                    )}
+                                    {/* @ts-ignore */}
+                                    {deadlineWarning(new Date(jobad.time_expire)) && (
+                                        <Acute
+                                            className='w-fit pr-0 ml-2 text-center leading-6 fill-(--color-text-primary)'
+                                        />
+                                    )}
+                                </div>
                                 {/* @ts-ignore */}
-                                {deadlineWarning(new Date(jobad.time_expire)) && (
-                                    <Acute
-                                        className='w-fit pr-0 ml-2 text-center leading-6 fill-(--color-text-primary)'
+                                {jobad.position_title_no && (
+                                    <>
+                                        <div className='text-(--color-text-discreet) inline-flex items-start'>
+                                            <Badge
+                                                className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
+                                            />
+                                            {text.details.position}:
+                                        </div>
+                                        <div className='jobad-details_value'>
+                                            {/* @ts-ignore */}
+                                            {lang == 'en' && jobad.position_title_en ? jobad.position_title_en : jobad.position_title_no}
+                                        </div>
+                                    </>
+                                )}
+                                <div className='text-(--color-text-discreet) inline-flex items-start'>
+                                    <WorkHistory
+                                        className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
                                     />
+                                    {text.details.type}:
+                                </div>
+                                <div className='jobad-details_value'>
+                                    {/* @ts-ignore */}
+                                    {lang == 'en' ? jobad.job_type.name_en : jobad.job_type.name_no}
+                                </div>
+                                {/* @ts-ignore */}
+                                {jobad.cities && jobad.cities.length > 0 && (
+                                    <>
+                                        <div
+                                            className='flex-row text-(--color-text-discreet)
+                                            inline-flex'
+                                        >
+                                            <Pin
+                                                className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
+                                            />
+                                            {/* @ts-ignore */}
+                                            {jobad.cities.length > 1 ? text.details.locations : text.details.location}:
+                                        </div>
+                                        <div className='jobad-details_value'>
+                                            {/* @ts-ignore */}
+                                            {jobad.cities.join(', ')}
+                                        </div>
+                                    </>
+                                )}
+                                {/* @ts-ignore */}
+                                {jobad.skills && jobad.skills.length > 0 && (
+                                    <>
+                                        <div className='text-(--color-text-discreet) inline-flex items-start'>
+                                            <Wrench
+                                                className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
+                                            />
+                                            {text.details.skills}:
+                                        </div>
+                                        <div className='jobad-details_value'>
+                                            {/* @ts-ignore */}
+                                            {jobad.skills.join(', ')}
+                                        </div>
+                                    </>
                                 )}
                             </div>
                             {/* @ts-ignore */}
-                            {jobad.position_title_no && (
-                                <>
-                                    <div className='text-(--color-text-discreet) inline-flex items-start'>
-                                        <Badge
-                                            className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
-                                        />
-                                        {text.details.position}:
-                                    </div>
-                                    <div className='jobad-details_value'>
-                                        {/* @ts-ignore */}
-                                        {lang == 'en' && jobad.position_title_en ? jobad.position_title_en : jobad.position_title_no}
-                                    </div>
-                                </>
-                            )}
-                            <div className='text-(--color-text-discreet) inline-flex items-start'>
-                                <WorkHistory
-                                    className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
-                                />
-                                {text.details.type}:
-                            </div>
-                            <div className='jobad-details_value'>
-                                {/* @ts-ignore */}
-                                {lang == 'en' ? jobad.job_type.name_en : jobad.job_type.name_no}
-                            </div>
-                            {/* @ts-ignore */}
-                            {jobad.cities && jobad.cities.length > 0 && (
-                                <>
-                                    <div
-                                        className='flex-row text-(--color-text-discreet)
-                                        inline-flex'
-                                    >
-                                        <Pin
-                                            className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
-                                        />
-                                        {/* @ts-ignore */}
-                                        {jobad.cities.length > 1 ? text.details.locations : text.details.location}:
-                                    </div>
-                                    <div className='jobad-details_value'>
-                                        {/* @ts-ignore */}
-                                        {jobad.cities.join(', ')}
-                                    </div>
-                                </>
-                            )}
-                            {/* @ts-ignore */}
-                            {jobad.skills && jobad.skills.length > 0 && (
-                                <>
-                                    <div className='text-(--color-text-discreet) inline-flex items-start'>
-                                        <Wrench
-                                            className='w-8 pr-2 text-center leading-6 fill-(--color-text-discreet)'
-                                        />
-                                        {text.details.skills}:
-                                    </div>
-                                    <div className='jobad-details_value'>
-                                        {/* @ts-ignore */}
-                                        {jobad.skills.join(', ')}
-                                    </div>
-                                </>
+                            {jobad.application_url && (
+                                // @ts-ignore
+                                <Button
+                                    trailingIcon={<ArrowOutward className='w-6 h-6 fill-white' />}
+                                    // @ts-ignore
+                                    href={jobad.application_url}
+                                    className='w-full 400px:w-fit 450px:w-fit 800px:min-w-48 800px:mt-auto 800px:ml-auto'
+                                >
+                                    {text.details.applyButton}
+                                </Button>
                             )}
                         </div>
-                        {/* @ts-ignore */}
-                        {jobad.application_url && (
-                            // @ts-ignore
-                            <Button
-                                trailingIcon={<ArrowOutward className='w-6 h-6 fill-white' />}
-                                // @ts-ignore
-                                href={jobad.application_url}
-                                className='w-full 400px:w-fit 450px:w-fit 800px:min-w-48 800px:float-right 800px:mt-0'
-                            >
-                                {text.details.applyButton}
-                            </Button>
-                        )}
                     </div>
                     {jobad.banner_image && (
-                        <div className='relative w-full aspect-10/4 [grid-area:ban] 800px:mb-8'>
+                        <div
+                            className='order-first relative min-w-0 w-full overflow-hidden rounded-(--border-radius)
+                                aspect-10/4 max-h-72 800px:order-0 800px:max-h-60'
+                        >
                             <Image
                                 src={`${config.url.cdn}/img/jobs/${jobad.banner_image}`}
                                 alt={jobad.banner_image}
                                 fill={true}
-                                className='800px:rounded-(--border-radius)'
+                                className='object-cover object-center'
                             />
                         </div>
                     )}
                     <div
-                        className='[grid-area:des] p-4 relative 450px:p-8 800px:pt-0 800px:pr-10 800px:pb-4 800px:pl-0
+                        className='p-4 relative 450px:p-8 800px:min-w-0 800px:pt-0 800px:pr-10 800px:pb-4 800px:pl-0
                             800px:after:content-[""] 800px:after:w-[2.6rem] 800px:after:h-[2.6rem]
                             800px:after:absolute 800px:after:border-[0.7rem]
                             800px:after:border-(--color-border-default)

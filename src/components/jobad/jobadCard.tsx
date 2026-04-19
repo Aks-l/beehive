@@ -8,6 +8,7 @@ import { cookies } from 'next/headers'
 import Pin from '@components/svg/symbols/pin'
 import DefaultJobBanner from '@components/svg/defaultbanners/defaultJobBanner'
 import clsx from '@utils/clsx'
+import { normalizeLang } from '@utils/lang'
 
 type JobadCardProps = {
     jobad: GetJobProps
@@ -16,7 +17,7 @@ type JobadCardProps = {
 }
 
 export default async function JobadCard({ jobad, highlight = true, disableTags = false }: JobadCardProps) {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
 
     return (
         <Link href={`/career/${jobad.id}`}>
