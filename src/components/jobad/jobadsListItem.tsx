@@ -49,7 +49,7 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
                 className={clsx(
                     'group mx-auto mb-6 cursor-pointer rounded-[0.4rem] p-[0.13rem] transition-all duration-200',
                     '400px:max-w-full',
-                    jobad.highlight && 'bg-(--gradient-highlight) hover:bg-(--gradient-highlight-hover)',
+                    jobad.highlight && '[background:var(--gradient-highlight)] hover:[background:var(--gradient-highlight-hover)]',
                     jobad.highlight && 'transition-[background] duration-200 400px:mb-4 1000px:mb-8'
                 )}
             >

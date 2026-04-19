@@ -19,13 +19,24 @@ type JobadCardProps = {
 export default async function JobadCard({ jobad, highlight = true, disableTags = false }: JobadCardProps) {
     const lang = normalizeLang((await cookies()).get('lang')?.value)
 
+    const highlightClass = highlight
+        ? [
+            'border-[0.13rem]',
+            'border-transparent',
+            '[background:linear-gradient(var(--color-bg-body),var(--color-bg-body))_padding-box,' +
+                'var(--gradient-highlight)_border-box]',
+            'hover:[background:linear-gradient(var(--color-bg-surface),var(--color-bg-surface))_padding-box,' +
+                'var(--gradient-highlight-hover)_border-box]',
+        ].join(' ')
+        : 'hover:bg-(--color-bg-surface)'
+
     return (
         <Link href={`/career/${jobad.id}`}>
             <div
                 className={clsx(
                     'mx-auto flex h-full w-full max-w-100 cursor-pointer flex-col rounded-(--border-radius)',
-                    'p-4 transition-all duration-200 hover:bg-(--color-bg-surface) 800px:p-[5%]',
-                    highlight && 'jobad-card--highlight'
+                    'p-4 transition-all duration-200 800px:p-[5%]',
+                    highlightClass
                 )}
             >
                 <div>
