@@ -192,7 +192,10 @@ export default function Messages({
 }
 
 function AssistantMessage({ text, copiedMessageId, message, handleCopy }: AssistantMessageProps) {
-    console.log(message)
+    if (message.error) {
+        return
+    }
+
     return (
         <div className='flex'>
             <button
@@ -215,7 +218,6 @@ function AssistantMessage({ text, copiedMessageId, message, handleCopy }: Assist
 }
 
 function UserMessage({ text, copiedMessageId, message, handleCopy }: UserMessageProps) {
-    console.log(message)
     return (
         <button
             type='button'
