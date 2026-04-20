@@ -17,7 +17,6 @@ function createPendingAssistantMessage(conversationId: string): GPT_ChatMessage 
 
 export default function useGptPageState(initialConversations?: ChatConversationSummary[]) {
     const [clients, setClients] = useState<GPT_Client[]>([])
-    const [reconnect, setReconnect] = useState(false)
     const [isConnected, setIsConnected] = useState(false)
     const [participants, setParticipants] = useState(1)
     const [conversations, setConversations] = useState<ChatConversationSummary[]>(initialConversations || [])
@@ -26,56 +25,6 @@ export default function useGptPageState(initialConversations?: ChatConversationS
     const [chatSession, setChatSession] = useState<ChatSession | null>(null)
     const clientsRef = useRef<GPT_Client[]>([])
     const socketRef = useRef<WebSocket | null>(null)
-
-    useEffect(() => {
-        clientsRef.current = clients
-    }, [clients])
-
-    useEffect(() => {
-        const ws = new WebSocket(`${config.url.beekeeper_wss}/client/ws/beeswarm`)
-        socketRef.current = ws
-
-        ws.onopen = () => {
-            setReconnect(false)
-            setIsConnected(true)
-        }
-
-        ws.onclose = () => {
-            setIsConnected(false)
-            socketRef.current = null
-        }
-
-        ws.onerror = (error) => {
-            console.log('WebSocket error:', error)
-            setIsConnected(false)
-        }
-
-        ws.onmessage = (event) => {
-            try {
-                handleSocketMessage(
-                    JSON.parse(event.data) as GptSocketMessage,
-                    setChatSession,
-                    setClients,
-                    setParticipants,
-                    () => void loadConversations()
-                )
-            } catch (error) {
-                console.error('Invalid message from server:', error)
-            }
-        }
-
-        return () => ws.close()
-    }, [reconnect])
-
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            if (!isConnected) {
-                setReconnect(true)
-            }
-        }, 3000)
-
-        return () => clearTimeout(timeout)
-    }, [isConnected])
 
     const loadConversations = useCallback(async (background = false) => {
         try {
@@ -89,6 +38,82 @@ export default function useGptPageState(initialConversations?: ChatConversationS
             setIsLoadingConversations(false)
         }
     }, [])
+
+    useEffect(() => {
+        clientsRef.current = clients
+    }, [clients])
+
+    useEffect(() => {
+        let disposed = false
+        let reconnectTimer: ReturnType<typeof setTimeout> | null = null
+        let reconnectAttempt = 0
+
+        const connect = () => {
+            if (disposed) {
+                return
+            }
+
+            const ws = new WebSocket(`${config.url.beekeeper_wss}/client/ws/beeswarm`)
+            socketRef.current = ws
+
+            ws.onopen = () => {
+                reconnectAttempt = 0
+                setIsConnected(true)
+            }
+
+            ws.onclose = () => {
+                setIsConnected(false)
+
+                if (socketRef.current === ws) {
+                    socketRef.current = null
+                }
+
+                if (disposed) {
+                    return
+                }
+
+                const delay = Math.min(250 * 2 ** reconnectAttempt, 3000)
+                reconnectAttempt += 1
+                reconnectTimer = setTimeout(connect, delay)
+            }
+
+            ws.onerror = (error) => {
+                console.log('WebSocket error:', error)
+                setIsConnected(false)
+
+                if (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING) {
+                    ws.close()
+                }
+            }
+
+            ws.onmessage = (event) => {
+                try {
+                    handleSocketMessage(
+                        JSON.parse(event.data) as GptSocketMessage,
+                        setChatSession,
+                        setClients,
+                        setParticipants,
+                        () => void loadConversations(true)
+                    )
+                } catch (error) {
+                    console.error('Invalid message from server:', error)
+                }
+            }
+        }
+
+        connect()
+
+        return () => {
+            disposed = true
+            if (reconnectTimer) {
+                clearTimeout(reconnectTimer)
+            }
+
+            const ws = socketRef.current
+            socketRef.current = null
+            ws?.close()
+        }
+    }, [loadConversations])
 
     useEffect(() => {
         void loadConversations(initialConversations !== undefined)

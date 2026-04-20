@@ -1,5 +1,5 @@
 import { getClients } from '@utils/api'
-import { getAiConversation, listAiConversations } from '@utils/ai'
+import { getAiConversation } from '@utils/ai'
 import PageClient from './pageClient'
 import { cookies } from 'next/headers'
 
@@ -13,10 +13,9 @@ export default async function page({ params }: PromisedPageProps) {
         sessionId: cookieStore.get('ai_session_id')?.value || '',
         isLoggedIn: Boolean(cookieStore.get('access_token')?.value),
     }
-    const [initialConversation, initialClientsCount, initialConversations] = await Promise.all([
+    const [initialConversation, initialClientsCount] = await Promise.all([
         getAiConversation(id).catch(() => null),
         getClients().catch(() => 0),
-        listAiConversations().catch(() => []),
     ])
 
     return (
@@ -25,7 +24,6 @@ export default async function page({ params }: PromisedPageProps) {
             lang={lang}
             initialConversation={initialConversation}
             initialClientsCount={initialClientsCount}
-            initialConversations={initialConversations}
             identity={identity}
         />
     )

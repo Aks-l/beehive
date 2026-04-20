@@ -3,10 +3,11 @@
 import en from '@text/ai/en.json'
 import no from '@text/ai/no.json'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import useGptPageState, {
+import {
     createChatSessionFromStoredConversation,
     getStoredChatSessionSnapshot
 } from '@components/gpt/useGptPageState'
+import { useGpt } from '@components/gpt/provider'
 import findHighestTPSClient from '@utils/findHighestTPSClient'
 import Footer from '@components/gpt/footer'
 import Prompt from '@components/gpt/prompt'
@@ -20,14 +21,12 @@ export default function PageClient({
     lang,
     initialConversation,
     initialClientsCount,
-    initialConversations,
     identity,
 }: {
     id: string
     lang: Lang
     initialConversation: StoredConversation | null
     initialClientsCount: number
-    initialConversations: ChatConversationSummary[]
     identity: AIIdentity
 }) {
     const {
@@ -41,7 +40,7 @@ export default function PageClient({
         restoreChat,
         sendPrompt,
         switchConversationClient
-    } = useGptPageState(initialConversations)
+    } = useGpt()
     const text = (lang === 'no' ? no : en).conversation
     const [input, setInput] = useState('')
     const [selectedClient, setSelectedClient] = useState('')

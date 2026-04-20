@@ -3,7 +3,7 @@
 import GPT_EmptyState from '@components/gpt/emptyState'
 import GPTPreview from '@components/gpt/gptPreview'
 import Menu from '@components/gpt/menu'
-import useGptPageState from '@components/gpt/useGptPageState'
+import { useGpt } from '@components/gpt/provider'
 import { Comic_Neue } from 'next/font/google'
 import en from '@text/ai/en.json'
 import no from '@text/ai/no.json'
@@ -12,18 +12,16 @@ const comicNeue = Comic_Neue({ subsets: ['latin'], weight: ['400', '700'] })
 
 export default function page({
     clients,
-    conversations,
     random,
     lang,
     identity
 }: {
     clients: number
-    conversations: ChatConversationSummary[]
     random: number
     lang: Lang
     identity: AIIdentity
 }) {
-    const gpt = useGptPageState(conversations)
+    const gpt = useGpt()
     const text = (lang === 'no' ? no : en).conversation
 
     return (
