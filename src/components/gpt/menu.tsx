@@ -250,7 +250,7 @@ export default function Menu({
                         value={sessionId}
                         onChange={(e) => setSessionId(e.target.value)}
                         onSubmit={handleImportSession}
-                        className='top-5 h-8'
+                        className='top-2 h-8'
                     />
                 ) : null}
                 <button
