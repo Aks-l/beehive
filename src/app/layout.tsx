@@ -16,7 +16,6 @@ export { default as viewport } from './metadata'
 export default async function layout({ children }: { children: ReactNode }) {
     const Cookies = await cookies()
     const theme = Cookies.get('theme')?.value || 'dark'
-    const bubbleLogin = Cookies.get('bubbleLogin')?.value === 'true'
     const lang = normalizeLang(Cookies.get('lang')?.value)
     const Headers = headers()
     const path = (await Headers).get('x-current-path') || ''
@@ -39,7 +38,7 @@ export default async function layout({ children }: { children: ReactNode }) {
             >
                 {page !== 'pwned' ? (
                     <header className='fixed top-0 z-900 w-full'>
-                        <TopBar onlyLogo={dashboard} bubbleLogin={bubbleLogin} theme={theme} />
+                        <TopBar onlyLogo={dashboard} theme={theme} />
                     </header>
                 ) : (
                     page === 'pwned' && (
