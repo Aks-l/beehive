@@ -101,7 +101,9 @@ export default function Menu({
         }
     }
 
-    async function handleImportSession() {
+    async function handleImportSession(e: React.SubmitEvent<HTMLFormElement>) {
+        e.preventDefault()
+
         if (!sessionId?.trim()) {
             return
         }
@@ -245,14 +247,15 @@ export default function Menu({
 
             <div className='absolute right-2 bottom-2 left-2 grid gap-2'>
                 {identity?.isLoggedIn ? (
-                    <Input
-                        name='text'
-                        placeholder={text.loadFromSession}
-                        value={sessionId}
-                        onChange={(e) => setSessionId(e.target.value)}
-                        onSubmit={handleImportSession}
-                        className='bottom-4 h-7'
-                    />
+                    <form onSubmit={handleImportSession}>
+                        <Input
+                            name='text'
+                            placeholder={text.loadFromSession}
+                            value={sessionId}
+                            onChange={(e) => setSessionId(e.target.value)}
+                            className='bottom-4 h-7'
+                        />
+                    </form>
                 ) : null}
                 <button
                     type='button'
