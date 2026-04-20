@@ -22,7 +22,7 @@ export default async function layout({ children }: { children: ReactNode }) {
     const path = (await Headers).get('x-current-path') || ''
     const page = path.split('/').pop()
     const dashboard = path.includes('dashboard')
-    const aiChat = path.startsWith('/ai/')
+    const aiChat = path.startsWith('/ai')
     const hideFooter = page === 'pwned' || path.includes('dashboard') || aiChat
     const pwnedHeaderClassName = 'fixed top-0 z-900 w-full bg-(--color-bg-topbar-fallback) '
         + 'supports-[backdrop-filter:blur(0px)]:bg-(--color-bg-topbar) '

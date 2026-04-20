@@ -139,7 +139,7 @@ export default function PageClient({
 
     return (
         <div className='page-section--without-gaps h-full min-h-full'>
-            <div className='grid h-full min-h-0 grid-cols-1 1000px:grid-cols-[18rem_minmax(0,1fr)]'>
+            <div className='grid h-full min-h-0 grid-cols-7'>
                 <Menu
                     text={text}
                     isLoadingConversations={isLoadingConversations}
@@ -149,7 +149,7 @@ export default function PageClient({
                     identity={identity}
                 />
 
-                <section className='flex min-h-full flex-col bg-(--color-bg-main)'>
+                <section className='flex min-h-full flex-col bg-(--color-bg-main) col-span-6'>
                     <AnonymousDisclaimer
                         identity={identity}
                         conversations={conversations}

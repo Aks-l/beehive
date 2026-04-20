@@ -132,8 +132,7 @@ export default function Menu({
     return (
         <aside
             className='relative flex min-h-0 flex-col border-b border-(--color-border-default)
-                bg-(--color-bg-surface) p-3 1000px:border-r 1000px:border-b-0
-                1000px:px-5'
+                bg-(--color-bg-surface) p-3'
         >
             {/* new chat */}
             <Link

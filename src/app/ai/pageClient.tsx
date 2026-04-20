@@ -26,7 +26,7 @@ export default function page({
 
     return (
         <div className='page-section--without-gaps h-full min-h-0'>
-            <div className='grid h-full min-h-0 grid-cols-1 1000px:grid-cols-[18rem_minmax(0,1fr)]'>
+            <div className='grid h-full min-h-0 grid-cols-7'>
                 <Menu
                     text={text}
                     isLoadingConversations={gpt.isLoadingConversations}
@@ -36,7 +36,7 @@ export default function page({
                     identity={identity}
                 />
 
-                <section className='page-container min-h-[calc(100vh-var(--h-topbar))] bg-(--color-bg-main)'>
+                <section className='page-container min-h-[calc(100vh-var(--h-topbar))] bg-(--color-bg-main) col-span-6'>
                     <div className='page-section--normal flex flex-col'>
                         <h1 className='heading-1 heading-1--top-left-corner'>
                             Login AI
