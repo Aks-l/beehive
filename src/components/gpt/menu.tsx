@@ -109,6 +109,7 @@ export default function Menu({
         try {
             await importAiConversationsFromSession(sessionId.trim())
             loadConversations(true)
+            setSessionId('')
         } catch (error) {
             console.error('Failed to import conversations from session', error)
         }
@@ -244,12 +245,12 @@ export default function Menu({
             >
                 {identity?.isLoggedIn ? (
                     <Input
-                        // className='rounded-(--border-radius) bg-(--color-bg-body)
-                        //         px-3 py-2 text-sm text-(--color-text-main)'
                         name='text'
+                        placeholder={text.loadFromSession}
                         value={sessionId}
                         onChange={(e) => setSessionId(e.target.value)}
                         onSubmit={handleImportSession}
+                        className='top-5 h-8'
                     />
                 ) : null}
                 <button

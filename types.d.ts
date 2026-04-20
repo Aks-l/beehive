@@ -892,7 +892,6 @@ declare global {
         restore: string
         deleted: string
         loadFromSession: string
-        enterSessionId: string
         temporaryBanner: string
         copySessionId: string
         loginToSave: string

@@ -51,7 +51,6 @@
         "restore": "Gjenopprett",
         "deleted": "Slettede",
         "loadFromSession": "Last inn fra ID",
-        "enterSessionId": "Skriv inn en midlertidig sesjons-ID",
         "temporaryBanner": "Du er ikke logget inn. Samtalene dine er midlertidig lagret under ID {id}.",
         "copySessionId": "Kopier sesjons-ID",
         "loginToSave": "Logg inn",
