@@ -1,6 +1,6 @@
 'use client'
 
-import { Navbar, NavDropdown, NavItem } from 'uibee/components'
+import { NavDropdown, NavItem } from 'uibee/components'
 import en from '@text/layout/en.json'
 import no from '@text/layout/no.json'
 import config from '@config'
@@ -10,6 +10,7 @@ import { getCookie, setCookie } from 'utilbee'
 import { usePathname } from 'next/navigation'
 import { normalizeLang } from '@utils/lang'
 import { useState } from 'react'
+import Navbar from './navbar'
 
 type TopBarProps = {
     onlyLogo: boolean
