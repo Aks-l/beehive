@@ -1,4 +1,5 @@
 import { Bot, Check, Copy } from 'lucide-react'
+import Link from 'next/link'
 import { RefObject, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import ReactMarkdown, { type Components } from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -133,9 +134,14 @@ export default function Messages({
                         <p className='font-semibold text-(--color-text-main)'>
                             {text.notFoundTitle}
                         </p>
-                        <p className='text-sm text-(--color-text-discreet)'>
-                            {text.notFoundDescription}
-                        </p>
+                        <div className='flex gap-1'>
+                            <p className='text-sm text-(--color-text-discreet)'>
+                                {text.notFoundDescription}
+                            </p>
+                            <Link href='/ai' className='text-sm text-(--color-text-discreet) underline!'>
+                                {text.notFoundAction}
+                            </Link>
+                        </div>
                     </div>
                 </div>
             ) : (

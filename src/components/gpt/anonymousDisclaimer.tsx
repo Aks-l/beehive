@@ -29,9 +29,9 @@ export default function AnonymousDisclaimer({ identity, conversations, text }: A
 
     return (
         <div
-            className='rounded-lg border border-red-500/40 mx-auto px-20
-                bg-red-500/10 p-3 text-sm text-red-100
-                in-[.light]:text-red-900 flex items-center
+            className='rounded-lg border border-login-orange/40 mx-auto px-20
+                bg-login-orange/10 p-3 text-sm text-red-100
+                in-[.light]:text-login-orange flex items-center
                 justify-between'
         >
             <div className='flex gap-2'>
@@ -40,7 +40,7 @@ export default function AnonymousDisclaimer({ identity, conversations, text }: A
                         {part}
                         {i < arr.length - 1 && (
                             <div className='flex gap-2 px-1'>
-                                <code className='p-1 rounded-lg bg-red-800/10'>{identity.sessionId}</code>
+                                <code className='p-1 rounded bg-login-orange/10'>{identity.sessionId}</code>
                                 <button
                                     type='button'
                                     className='cursor-pointer'
@@ -58,7 +58,7 @@ export default function AnonymousDisclaimer({ identity, conversations, text }: A
             <div className='flex flex-wrap gap-3'>
                 <a
                     href={`/api/auth/login?redirect=${encodeURIComponent('/ai')}`}
-                    className='rounded-lg px-3 py-1.5 underline text-white'
+                    className='cursor-pointer rounded-lg px-3 py-1.5 underline! decoration-current decoration-1 text-white'
                 >
                     {text.loginToSave}
                 </a>

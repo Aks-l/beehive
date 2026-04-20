@@ -6,19 +6,33 @@ import no from '@text/layout/no.json'
 import config from '@config'
 import { Activity, BookMarked, BookOpen, Heart, Images, Music, Lock, Search, Sparkles } from 'lucide-react'
 import Office from '@components/svg/symbols/office'
-import { getCookie } from 'utilbee'
+import { getCookie, setCookie } from 'utilbee'
 import { usePathname } from 'next/navigation'
 import { normalizeLang } from '@utils/lang'
+import { useState } from 'react'
 
-export default async function Topbar({ onlyLogo }: { onlyLogo: boolean }) {
+type TopBarProps = {
+    onlyLogo: boolean
+    bubbleLogin: boolean
+    theme: string
+}
+
+export default function Topbar({ onlyLogo, bubbleLogin, theme }: TopBarProps) {
     const pathname = usePathname()
     const accessToken = getCookie('access_token') || null
-    const theme = getCookie('theme') || 'dark'
     const lang = normalizeLang(getCookie('lang'))
     const text = lang === 'no' ? no : en
     const navbarClassName = 'bg-transparent! max-800px:[&.topbar--open]:h-screen '
         + 'max-800px:[&.topbar--open]:bg-(--color-bg-topbar-open) '
         + '800px:[&.topbar--open]:h-(--h-topbar)'
+    const [hideBubbleLogin, setHideBubbleLogin] = useState(bubbleLogin)
+
+    function handleHideBubbleLogin(e: React.MouseEvent<SVGSVGElement, MouseEvent>) {
+        e.preventDefault()
+        e.stopPropagation()
+        setHideBubbleLogin(true)
+        setCookie('bubbleLogin', 'true')
+    }
 
     return (
         <div className='relative'>
@@ -35,11 +49,14 @@ export default async function Topbar({ onlyLogo }: { onlyLogo: boolean }) {
                         condition: !accessToken && pathname.endsWith('/ai'),
                         href: `${config.authPath.login}?redirect=${encodeURIComponent(pathname)}`,
                         text: lang === 'no' ? 'Logg inn for å lagre samtalene dine.' : 'Log in to save your chats.',
-                        stroke: 'rgb(239 68 68 / 0.4)',
+                        stroke: 'var(--color-login-orange)',
                         fill: 'var(--color-bg-surface)',
+                        hide: hideBubbleLogin,
+                        handleHide: handleHideBubbleLogin,
                         className: `z-20 hidden max-w-56 rounded-2xl border py-2
-                        border-red-500/40 px-3 shadow-lg shadow-black/10 text-sm
-                        bg-(--color-bg-surface) text-(--color-text-main) 800px:block`
+                        border-(--color-login-orange) px-3 shadow-lg shadow-black/10 text-sm
+                        bg-(--color-bg-surface) text-(--color-text-main) 800px:block`,
+                        x: 'stroke-(--color-login-orange)'
                     }
                 }}
             >

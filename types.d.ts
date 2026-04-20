@@ -883,6 +883,7 @@ declare global {
         continueOnAnotherModel: string
         notFoundTitle: string
         notFoundDescription: string
+        notFoundAction: string
         thinking: string
         copy: string
         copied: string
