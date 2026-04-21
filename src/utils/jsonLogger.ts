@@ -38,6 +38,41 @@ const REDACTED_KEYS = [
     'api_key',
 ]
 
+export function installJsonConsoleLogger() {
+    if ((globalThis as { __beehiveJsonConsoleInstalled?: boolean }).__beehiveJsonConsoleInstalled) {
+        return
+    }
+
+    ;(globalThis as { __beehiveJsonConsoleInstalled?: boolean }).__beehiveJsonConsoleInstalled = true
+
+    const methods: Array<{ consoleMethod: 'log' | 'info' | 'warn' | 'error', level: LogLevel }> = [
+        { consoleMethod: 'log', level: 'info' },
+        { consoleMethod: 'info', level: 'info' },
+        { consoleMethod: 'warn', level: 'warn' },
+        { consoleMethod: 'error', level: 'error' },
+    ]
+
+    for (const { consoleMethod, level } of methods) {
+        console[consoleMethod] = (...args: unknown[]) => {
+            const normalized = normalizeArgs(args)
+            write({
+                time: new Date().toISOString(),
+                level,
+                service: 'beehive',
+                runtime: 'web',
+                environment: process.env.NODE_ENV ?? 'development',
+                pid: process.pid,
+                hostname: process.env.HOSTNAME,
+                msg: normalized.msg,
+                err: normalized.err,
+                context: normalized.context,
+                data: normalized.data,
+                origin: getOrigin(),
+            })
+        }
+    }
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
     return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
@@ -140,39 +175,4 @@ function getOrigin() {
 
 function write(entry: JsonLogEntry) {
     process.stdout.write(`${JSON.stringify(entry)}\n`)
-}
-
-export function installJsonConsoleLogger() {
-    if ((globalThis as { __beehiveJsonConsoleInstalled?: boolean }).__beehiveJsonConsoleInstalled) {
-        return
-    }
-
-    ;(globalThis as { __beehiveJsonConsoleInstalled?: boolean }).__beehiveJsonConsoleInstalled = true
-
-    const methods: Array<{ consoleMethod: 'log' | 'info' | 'warn' | 'error', level: LogLevel }> = [
-        { consoleMethod: 'log', level: 'info' },
-        { consoleMethod: 'info', level: 'info' },
-        { consoleMethod: 'warn', level: 'warn' },
-        { consoleMethod: 'error', level: 'error' },
-    ]
-
-    for (const { consoleMethod, level } of methods) {
-        console[consoleMethod] = (...args: unknown[]) => {
-            const normalized = normalizeArgs(args)
-            write({
-                time: new Date().toISOString(),
-                level,
-                service: 'beehive',
-                runtime: 'web',
-                environment: process.env.NODE_ENV ?? 'development',
-                pid: process.pid,
-                hostname: process.env.HOSTNAME,
-                msg: normalized.msg,
-                err: normalized.err,
-                context: normalized.context,
-                data: normalized.data,
-                origin: getOrigin(),
-            })
-        }
-    }
 }
