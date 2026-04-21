@@ -10,6 +10,10 @@ sub vcl_recv {
         return (pass);
     }
 
+    if (req.url ~ "^/api/music/users(/|$)") {
+        return (pass);
+    }
+
     if (req.http.Cookie) {
         set req.http.X-Theme = regsub(req.http.Cookie, ".*theme=([^;]+);?.*", "\1");
         set req.http.X-Lang = regsub(req.http.Cookie, ".*lang=([^;]+);?.*", "\1");
@@ -30,6 +34,12 @@ sub vcl_hash {
 
 sub vcl_backend_response {
     if (bereq.url ~ "^/ai(/|$)" || bereq.url ~ "^/api/ai(/|$)") {
+        set beresp.ttl = 0s;
+        set beresp.uncacheable = true;
+        return (deliver);
+    }
+
+    if (bereq.url ~ "^/api/music/users(/|$)") {
         set beresp.ttl = 0s;
         set beresp.uncacheable = true;
         return (deliver);

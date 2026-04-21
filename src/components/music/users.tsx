@@ -5,10 +5,10 @@ import TileCard from './tileCard'
 import clsx from '@utils/clsx'
 import { useState, type Dispatch, type SetStateAction } from 'react'
 import { Trophy, Users as UsersIcon } from 'lucide-react'
-import { fetchUsers } from '@/app/music/actions'
 import Loader from '@components/loader/loader'
 import useSWR from 'swr'
 import Button from '../button/button'
+import { MUSIC_USERS_KEY, useMusicUsersPrefetch } from './useMusicUsers'
 
 type UsersProps = {
     text: {
@@ -37,10 +37,15 @@ export function Users({
     const musicUserCategories: MusicUserCategory[] = ['listens', 'skips']
     const [category, setCategory] = useState(only ?? 'listens' as MusicUserCategory)
     const [shouldFetch, setShouldFetch] = useState(false)
+    const { unlocked, fetchMusicUsers } = useMusicUsersPrefetch()
     const { data: usersData, isValidating } = useSWR(
-        shouldFetch ? 'music_dashboard_users' : null,
-        () => fetchUsers(),
-        { refreshInterval: 60000 }
+        shouldFetch && unlocked ? MUSIC_USERS_KEY : null,
+        fetchMusicUsers,
+        {
+            refreshInterval: 60000,
+            revalidateOnFocus: false,
+            revalidateIfStale: false,
+        }
     )
 
     if (!usersData) {
