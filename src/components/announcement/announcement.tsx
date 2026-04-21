@@ -2,14 +2,17 @@ import MarkdownRender from '@components/markdownrender/markdownRender'
 import AnnouncementDismiss from './announcementDismiss'
 import { ArrowRight, Megaphone } from 'lucide-react'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 const announcementText: Record<Lang, {
+    banner: string
     title: string
     body: string
     button: string
     closeLabel: string
 }> = {
     no: {
+        banner: 'Kunngjøring',
         title: 'Hei, kjære Norsk Tipping-krigere og fans!',
         body: `Login Linjeforening er nå registrert i Frivillighetsregisteret!
 
@@ -26,6 +29,7 @@ pizza 🍕).`,
         closeLabel: 'Lukk kunngjoring'
     },
     en: {
+        banner: 'Announcement',
         title: 'Hi, dear Norsk Tipping warriors and fans!',
         body: `Login Student Association is now registered in the Register of
 Non-Profit Organizations!
@@ -49,14 +53,14 @@ const dismissCookieName = 'dismissAnnouncementGrasrot'
 
 export default async function Announcement() {
     const cookieStore = await cookies()
-    const lang = (cookieStore.get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang(cookieStore.get('lang')?.value)
     const dismissed = cookieStore.get(dismissCookieName)?.value === 'true'
 
     if (dismissed) {
         return null
     }
 
-    const text = announcementText[lang] ?? announcementText.no
+    const text = announcementText[lang]
 
     return (
         <div className='page-container px-4 pt-8'>
@@ -74,7 +78,7 @@ export default async function Announcement() {
                                 >
                                     <Megaphone className='h-3.5 w-3.5 stroke-(--color-primary)' aria-hidden='true' />
                                     <span className='text-xs font-semibold tracking-wide uppercase text-(--color-primary)'>
-                                        Announcment
+                                        {text.banner}
                                     </span>
                                 </div>
                             </div>
