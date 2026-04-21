@@ -29,6 +29,8 @@ const config = {
         discordAvatars: 'https://cdn.discordapp.com/avatars',
         spotify: 'https://open.spotify.com/track/',
         spotifyEmbed: 'https://open.spotify.com/embed/track',
+        spotifyEpisode: 'https://open.spotify.com/episode',
+        spotifyEpisodeEmbed: 'https://open.spotify.com/embed/episode',
         spotifyAlbum: 'https://open.spotify.com/album',
         spotifyArtist: 'https://open.spotify.com/artist',
         main: 'login.no',

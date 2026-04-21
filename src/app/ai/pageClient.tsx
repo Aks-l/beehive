@@ -2,11 +2,12 @@
 
 import GPT_EmptyState from '@components/gpt/emptyState'
 import GPTPreview from '@components/gpt/gptPreview'
-import Menu from '@components/gpt/menu'
+import Menu from '@components/gpt/menu/menu'
 import { useGpt } from '@components/gpt/provider'
 import { Comic_Neue } from 'next/font/google'
 import en from '@text/ai/en.json'
 import no from '@text/ai/no.json'
+// import AnonymousDisclaimer from '@components/gpt/anonymousDisclaimer'
 
 const comicNeue = Comic_Neue({ subsets: ['latin'], weight: ['400', '700'] })
 
@@ -26,7 +27,7 @@ export default function page({
 
     return (
         <div className='page-section--without-gaps h-full min-h-0'>
-            <div className='grid h-full min-h-0 grid-cols-7'>
+            <div className='grid h-full min-h-0 grid-cols-6'>
                 <Menu
                     text={text}
                     isLoadingConversations={gpt.isLoadingConversations}
@@ -36,7 +37,12 @@ export default function page({
                     identity={identity}
                 />
 
-                <section className='page-container min-h-[calc(100vh-var(--h-topbar))] bg-(--color-bg-main) col-span-6'>
+                {/* <AnonymousDisclaimer
+                    identity={identity}
+                    conversations={gpt.conversations}
+                    text={text}
+                /> */}
+                <section className='page-container min-h-[calc(100vh-var(--h-topbar))] bg-(--color-bg-main) col-span-5'>
                     <div className='page-section--normal flex flex-col -mt-13'>
                         <h1 className='heading-1 heading-1--top-left-corner'>
                             Login AI

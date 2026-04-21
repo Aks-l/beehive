@@ -352,7 +352,7 @@ declare global {
 
     type Music = {
         stats: MusicStats
-        currentlyListening: CurrentlyPlaying[]
+        currentlyListening: CurrentlyListening[]
         mostPlayedAlbums: Album[]
         mostPlayedArtists: ArtistPlayed[]
         mostPlayedSongs: CountedSong[]
@@ -396,19 +396,24 @@ declare global {
     type InspiredSong = {
         song: string
         artist: string
+        artist_id: string
         album: string
+        album_id: string
         skips: number
         listens: number
         inspired: number
-        id: string
+        song_id: string
         image: string
         like_ratio: number
     }
 
     type CurrentlyListening = {
         id: number
+        type: 'track' | 'episode'
         song_id: string
-        user_id: string
+        artist_id: string
+        album_id: string | null
+        user_id?: string
         start: string
         end: string
         source: string
@@ -417,7 +422,7 @@ declare global {
         image: string
         name: string
         artist: string
-        album: string
+        album: string | null
     }
 
     type ArtistPlayed = {
@@ -434,6 +439,7 @@ declare global {
         album: string
         album_id: string
         artist: string
+        artist_id: string
         total_listens: number
         top_song: string
         top_song_image: string
@@ -451,28 +457,34 @@ declare global {
     type CountedSong = {
         name: string
         artist: string
+        artist_id: string
         album: string
+        album_id: string
         listens: number
         image: string
-        id: string
+        song_id: string
     }
 
     type SongDay = {
         day: string
         song: string
         artist: string
+        artist_id: string
         album: string
+        album_id: string
         image: string
         listens: number
         total_songs_played: number
-        id: string
+        song_id: string
     }
 
     type TopXSong = {
         song: string
         artist: string
+        artist_id: string
         album: string
-        listens: string
+        album_id: string
+        listens: number
         image: string
         song_id: string
         start?: string
@@ -507,6 +519,7 @@ declare global {
         album: string
         album_id: string
         artist: string
+        artist_id: string
         total_listens: number
         total_skips: number
         like_ratio: number
@@ -527,7 +540,9 @@ declare global {
     type LikedSong = {
         song: string
         artist: string
+        artist_id: string
         album: string
+        album_id: string
         skips: number
         listens: number
         image: string
@@ -549,6 +564,7 @@ declare global {
         album: string
         album_id: string
         artist: string
+        artist_id: string
         skips: number
         top_song: string
         top_song_image: string
@@ -568,7 +584,9 @@ declare global {
     type SkippedSong = {
         song: string
         artist: string
+        artist_id: string
         album: string
+        album_id: string
         skips: number
         image: string
         song_id: string
@@ -637,6 +655,7 @@ declare global {
         image: string | undefined
         song_id: string | undefined
         name: string | undefined
+        media_type?: 'track' | 'episode'
     }
 
     type ServiceStatusHuman = 'operational' | 'degraded' | 'down' | 'inactive'

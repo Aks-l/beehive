@@ -12,12 +12,14 @@
     "music": "Music",
     "more": "More",
     "status": "Status",
-    "search": "Search",
     "internal": "Internal",
     "ai": "Login GPT"
   },
+  "info": {
+    "login": "Log in to save your chats."
+  },
   "footer": {
-    "contactInfo": {
+    "contact": {
       "address": {
         "header": "Address",
         "info1": "Teknologivegen 22",
@@ -25,6 +27,14 @@
         "info3": "2815 GJØVIK"
       },
       "email": "Email"
+    },
+    "sites": {
+        "title": "Diverse",
+        "nav": {
+          "policy": "Policy",
+          "search": "Search",
+          "pwned": "Pwned"
+        }
     },
     "sponsor": "Main partner",
     "copy1": "Copyright &copy;",

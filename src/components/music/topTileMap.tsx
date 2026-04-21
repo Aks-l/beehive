@@ -3,6 +3,7 @@ import Card from './card'
 import Marquee from './marquee'
 import TileCard from './tileCard'
 import type { Dispatch, SetStateAction } from 'react'
+import config from '@config'
 
 type TopTileMapProps = {
     text: string
@@ -33,7 +34,11 @@ export default function TopTileMap({ text, items, dropdown = false, open = true,
                         key={index}
                         imageHash={item.image}
                         className={`${index === 0 ? 'md:col-span-2' : ''} w-full`}
-                        song_id={'song_id' in item ? item.song_id : item.id}
+                        song_id={'song_id' in item ? item.song_id : undefined}
+                        media_type='track'
+                        url={'song' in item
+                            ? `${config.url.spotify}${item.song_id}`
+                            : `${config.url.spotifyEpisode}/${item.id}`}
                     >
                         <div className='flex w-full justify-between text-neutral-400 items-top'>
                             <Marquee

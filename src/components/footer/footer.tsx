@@ -44,6 +44,19 @@ export default async function Footer() {
                     <p className='text-center text-(--color-text-footer-discret) pt-8'>{text.footer.sponsor}</p>
                 </div>
             </div>
+            <div className='grid w-full max-w-60
+                sm:max-w-88 md:col-start-2 md:row-start-1 md:max-w-136
+                md:justify-self-center md:mt-0'
+            >
+                <h4 className='text-(--color-text-footer-discret) font-medium text-sm tracking-widest -mb-2'>
+                    {text.footer.sites.title}
+                </h4>
+                <div className='text-(--color-text-footer) -mt-10 grid -space-y-20'>
+                    <Link className='text-(--color-text-footer)' href='/policy'>{text.footer.sites.nav.policy}</Link>
+                    <Link className='text-(--color-text-footer)' href='/search'>{text.footer.sites.nav.search}</Link>
+                    <Link className='text-(--color-text-footer)' href='/pwned'>{text.footer.sites.nav.pwned}</Link>
+                </div>
+            </div>
             <div className='grid w-full max-w-60 mt-16 gap-8 sm:grid-cols-2
                 sm:max-w-88 sm:justify-items-end sm:justify-self-end
                 md:col-start-2 md:row-start-1 md:max-w-136
@@ -51,19 +64,19 @@ export default async function Footer() {
             >
                 <div className='sm:justify-self-center md:justify-self-end'>
                     <h4 className='text-(--color-text-footer-discret) font-medium text-sm tracking-widest pb-2'>
-                        {text.footer.contactInfo.address.header}
+                        {text.footer.contact.address.header}
                     </h4>
                     <p className='text-(--color-text-footer)'>
-                        {text.footer.contactInfo.address.info1}
+                        {text.footer.contact.address.info1}
                         <br />
-                        {text.footer.contactInfo.address.info2}
+                        {text.footer.contact.address.info2}
                         <br />
-                        {text.footer.contactInfo.address.info3}
+                        {text.footer.contact.address.info3}
                     </p>
                 </div>
                 <div className='sm:justify-self-center md:justify-self-end'>
                     <h4 className='text-(--color-text-footer-discret) font-medium text-sm tracking-widest pb-2'>
-                        {text.footer.contactInfo.email}
+                        {text.footer.contact.email}
                     </h4>
                     <p className='text-(--color-text-footer)'>
                         <a

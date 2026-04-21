@@ -86,6 +86,7 @@ export default function MostPlayed({
                 text={text.most_played_songs}
                 items={mostPlayedSongs}
                 getImageHash={a => a.image}
+                getUrl={a => `${config.url.spotify}${a.song_id}`}
                 getTitle={a => a.name}
                 getFirstLine={a => a.album}
                 getSecondLine={a => a.artist}
@@ -99,6 +100,7 @@ export default function MostPlayed({
                 text={text.most_played_episodes}
                 items={mostPlayedEpisodes}
                 getImageHash={a => a.image}
+                getUrl={a => `${config.url.spotifyEpisode}/${a.id}`}
                 getTitle={a => a.name}
                 getFirstLine={a => a.show}
                 getCount={a => a.listens}

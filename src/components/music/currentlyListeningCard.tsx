@@ -73,6 +73,9 @@ export default function CurrentlyListeningCard({ song }: { song: CurrentlyListen
         shadow-none w-full
         ${song.song_id && 'transform transition hover:scale-[1.015] hover:z-20'}
         min-h-[90px] h-[90px] max-h-[90px]`
+    const spotifyUrl = song.type === 'episode'
+        ? `${config.url.spotifyEpisode}/${song.song_id}?utm_source=login`
+        : `${config.url.spotify}${song.song_id}?utm_source=login`
 
     function handleMouseEnter() {
         setShouldRenderPlayer(true)
@@ -98,7 +101,7 @@ export default function CurrentlyListeningCard({ song }: { song: CurrentlyListen
 
     return (
         <Link
-            href={`${config.url.spotify}${song.song_id}?utm_source=login`}
+            href={spotifyUrl}
             target='_blank'
             className={style}
             onMouseEnter={handleMouseEnter}
@@ -130,7 +133,10 @@ function InnerCurrentlyListeningCard({
         : 'text-(--color-text-discreet)'}`
     return (
         <>
-            <ImageWithPlayer song={song} shouldRenderPlayer={shouldRenderPlayer} />
+            <ImageWithPlayer
+                song={{ ...song, media_type: song.type }}
+                shouldRenderPlayer={shouldRenderPlayer}
+            />
             <div className='flex flex-col flex-1 min-w-0 relative'>
                 {done && (
                     <Loader
@@ -149,11 +155,11 @@ function InnerCurrentlyListeningCard({
                     />
                 </div>
                 {song.artist === 'Unknown' ? <>
-                    <Marquee text={song.album} className='truncate' innerClassName={innerTextStyle} />
+                    <Marquee text={song.album ?? ''} className='truncate' innerClassName={innerTextStyle} />
                     <Marquee text={song.artist} className='truncate' innerClassName={innerTextStyle} />
                 </> : <>
                     <Marquee text={song.artist} className='truncate' innerClassName={innerTextStyle} />
-                    <Marquee text={song.album} className='truncate' innerClassName={innerTextStyle} />
+                    <Marquee text={song.album ?? ''} className='truncate' innerClassName={innerTextStyle} />
                 </>}
                 <div className='mt-2 flex items-center w-full gap-2'>
                     <span className={`text-xs ${done

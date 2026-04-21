@@ -1,6 +1,11 @@
 import { cookies } from 'next/headers'
 import { getSafeActivity } from '@utils/api'
 import type { Metadata } from 'next'
+import MusicClient from './pageClient'
+import Intro from '@components/music/intro'
+import no from '@text/music/no.json'
+import en from '@text/music/en.json'
+import Dashboards from '@components/music/dashboards'
 
 export const metadata: Metadata = {
     robots: {
@@ -8,11 +13,6 @@ export const metadata: Metadata = {
         follow: false,
     },
 }
-import MusicClient from './pageClient'
-import Intro from '@components/music/intro'
-import no from '@text/music/no.json'
-import en from '@text/music/en.json'
-import Dashboards from '@components/music/dashboards'
 
 export default async function Music() {
     const lang = ((await cookies()).get('lang')?.value || 'no') as Lang

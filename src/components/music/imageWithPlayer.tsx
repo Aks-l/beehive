@@ -63,6 +63,9 @@ export default function ImageWithPlayer({ song, src, shouldRenderPlayer }: Playe
     }, [clicked, left, song.song_id])
 
     const url = src ?? `${config.url.spotifyImage}/${Array.isArray(song.image) ? song.image[0] : song.image}`
+    const embedBaseUrl = song.media_type === 'episode'
+        ? config.url.spotifyEpisodeEmbed
+        : config.url.spotifyEmbed
 
     return (
         <>
@@ -87,14 +90,14 @@ export default function ImageWithPlayer({ song, src, shouldRenderPlayer }: Playe
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
-                {allowPlayer && <Frame key={frameKey} id={song.song_id ?? ''} ref={iframeRef} />}
+                {allowPlayer && <Frame key={frameKey} id={song.song_id ?? ''} embedBaseUrl={embedBaseUrl} ref={iframeRef} />}
             </div>
         </>
     )
 }
 
-const Frame = forwardRef<HTMLIFrameElement, { id: string }>(
-    ({ id }, ref) => (
+const Frame = forwardRef<HTMLIFrameElement, { id: string, embedBaseUrl: string }>(
+    ({ id, embedBaseUrl }, ref) => (
         <div className='absolute w-17.5 h-17.5 overflow-hidden'>
             <div className='max-w-17.5 h-17.5 overflow-hidden'
                 style={{
@@ -109,7 +112,7 @@ const Frame = forwardRef<HTMLIFrameElement, { id: string }>(
 
             <iframe
                 ref={ref}
-                src={`${config.url.spotifyEmbed}/${id}?utm_source=login&theme=0`}
+                src={`${embedBaseUrl}/${id}?utm_source=login&theme=0`}
                 width='300'
                 height='80'
                 style={{

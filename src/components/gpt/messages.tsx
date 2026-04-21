@@ -89,7 +89,11 @@ export default function Messages({
             return
         }
 
-        const handleScroll = () => {
+        function handleScroll() {
+            if (!viewport) {
+                return
+            }
+
             const distanceFromBottom = viewport.scrollHeight - viewport.scrollTop - viewport.clientHeight
             shouldFollowRef.current = distanceFromBottom < SCROLL_FOLLOW_THRESHOLD
         }
@@ -238,7 +242,7 @@ function UserMessage({ text, copiedMessageId, message, handleCopy }: UserMessage
 
 function getMessageClassName(message: GPT_ChatMessage) {
     if (message.role === 'user') {
-        return 'ml-auto bg-(--color-bg-surface)/80 text-white'
+        return 'ml-auto bg-(--color-bg-surface)/80'
     }
 
     if (message.error) {

@@ -93,8 +93,8 @@ export default function ListensPerDayChart({ data, text }: ListensPerDayProps) {
     const display = hover ?? selected ?? defaultItem
 
     return (
-        <div className='relative w-full overflow-visible flex flex-col gap-4'>
-            <div className='flex'>
+        <div className='relative w-full overflow-visible flex flex-col'>
+            <div className='flex '>
                 {/* Y Labels */}
                 <div className='grid pb-2.5 pt-1.75'>
                     {yTicks.reverse().map((val, i) => (

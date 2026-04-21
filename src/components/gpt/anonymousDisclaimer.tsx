@@ -58,7 +58,7 @@ export default function AnonymousDisclaimer({ identity, conversations, text }: A
             <div className='flex flex-wrap gap-3'>
                 <a
                     href={`/api/auth/login?redirect=${encodeURIComponent('/ai')}`}
-                    className='cursor-pointer rounded-lg px-3 py-1.5 underline! decoration-current decoration-1 text-white'
+                    className='cursor-pointer rounded-lg px-3 py-1.5 underline! decoration-current decoration-1'
                 >
                     {text.loginToSave}
                 </a>

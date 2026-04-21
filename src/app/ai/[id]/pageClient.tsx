@@ -13,7 +13,7 @@ import Footer from '@components/gpt/footer'
 import Prompt from '@components/gpt/prompt'
 import Messages from '@components/gpt/messages'
 import UnavailableBanner from '@components/gpt/unavailableBanner'
-import Menu from '@components/gpt/menu'
+import Menu from '@components/gpt/menu/menu'
 import AnonymousDisclaimer from '@components/gpt/anonymousDisclaimer'
 
 export default function PageClient({
@@ -139,7 +139,7 @@ export default function PageClient({
 
     return (
         <div className='page-section--without-gaps h-full min-h-full'>
-            <div className='grid h-full min-h-0 grid-cols-7'>
+            <div className='grid h-full min-h-0 grid-cols-6'>
                 <Menu
                     text={text}
                     isLoadingConversations={isLoadingConversations}
@@ -149,7 +149,7 @@ export default function PageClient({
                     identity={identity}
                 />
 
-                <section className='flex min-h-full flex-col bg-(--color-bg-main) col-span-6'>
+                <section className='flex min-h-full flex-col bg-(--color-bg-main) col-span-5'>
                     <AnonymousDisclaimer
                         identity={identity}
                         conversations={conversations}

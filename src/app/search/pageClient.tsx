@@ -108,16 +108,8 @@ export default function SearchPage({ preferredEngine }: { preferredEngine: Engin
 
     return (
         <div className='page-container min-h-[calc(100vh-var(--h-topbar))]'>
-            <div
-                className='page-section--normal flex min-h-[calc(100vh-var(--h-topbar)-2rem)]
-                    items-center py-6 800px:py-10'
-            >
-                <section
-                    className='relative w-full overflow-hidden rounded-(--border-radius-large)
-                        border border-(--color-border-default)
-                        p-4 bg-(--color-bg-surface)
-                        400px:p-6 800px:p-8'
-                >
+            <div className='page-section--normal flex min-h-[calc(100vh-var(--h-topbar)-2rem)]'>
+                <section className='relative w-full overflow-hidden p-4 400px:p-6 800px:p-8'>
                     <header className='relative z-1'>
                         <h1 className='heading-1 my-0! p-0!'>{text.entry.title}</h1>
                         <p className='p-highlighted mb-0!'>{text.entry.subtitle}</p>

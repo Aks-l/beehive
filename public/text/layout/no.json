@@ -12,12 +12,14 @@
     "music": "Musikk",
     "more": "Mer",
     "status": "Status",
-    "search": "Søk",
     "internal": "Internside",
     "ai": "Login GPT"
   },
+  "info": {
+    "login": "Logg inn for å lagre samtalene dine."
+  },
   "footer": {
-    "contactInfo": {
+    "contact": {
       "address": {
         "header": "Adresse",
         "info1": "Teknologivegen 22",
@@ -25,6 +27,14 @@
         "info3": "2815 GJØVIK"
       },
       "email": "Epost"
+    },
+    "sites": {
+      "title": "Diverse",
+      "nav": {
+        "policy": "Policy",
+        "search": "Søk",
+        "pwned": "Pwned"
+      }
     },
     "sponsor": "Hovedsamarbeidspartner",
     "copy1": "Opphavsrett &copy;",

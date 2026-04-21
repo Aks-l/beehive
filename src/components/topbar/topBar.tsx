@@ -4,7 +4,7 @@ import { Navbar, NavDropdown, NavItem } from 'uibee/components'
 import en from '@text/layout/en.json'
 import no from '@text/layout/no.json'
 import config from '@config'
-import { Activity, BookMarked, BookOpen, Heart, Images, Music, Lock, Search, Sparkles } from 'lucide-react'
+import { Activity, BookMarked, BookOpen, Heart, Images, Music, Lock, Sparkles } from 'lucide-react'
 import Office from '@components/svg/symbols/office'
 import { getCookie, setCookie } from 'utilbee'
 import { usePathname } from 'next/navigation'
@@ -48,14 +48,14 @@ export default function Topbar({ onlyLogo, bubbleLogin, theme }: TopBarProps) {
                     login: {
                         condition: !accessToken && pathname.endsWith('/ai'),
                         href: `${config.authPath.login}?redirect=${encodeURIComponent(pathname)}`,
-                        text: lang === 'no' ? 'Logg inn for å lagre samtalene dine.' : 'Log in to save your chats.',
+                        text: text.info.login,
                         stroke: 'var(--color-login-orange)',
                         fill: 'var(--color-bg-surface)',
                         hide: hideBubbleLogin,
                         handleHide: handleHideBubbleLogin,
-                        className: `z-20 hidden max-w-56 rounded-2xl border py-2
+                        className: `hidden z-20 max-w-56 rounded-2xl border py-2
                         border-(--color-login-orange) px-3 shadow-lg shadow-black/10 text-sm
-                        bg-(--color-bg-surface) text-(--color-text-main) 800px:block`,
+                        bg-(--color-bg-surface) text-(--color-text-main) 1200px:block`,
                         x: 'stroke-(--color-login-orange)'
                     }
                 }}
@@ -112,12 +112,6 @@ export default function Topbar({ onlyLogo, bubbleLogin, theme }: TopBarProps) {
                         <div className='flex flex-row items-center'>
                             <Activity className='size-6 stroke-(--color-text-regular) mr-[0.7rem]' />
                             {text.nav.status}
-                        </div>
-                    </NavItem>
-                    <NavItem href='/search'>
-                        <div className='flex flex-row items-center'>
-                            <Search className='size-6 stroke-(--color-text-regular) mr-[0.7rem]' />
-                            {text.nav.search}
                         </div>
                     </NavItem>
                     <NavItem href='/ai'>

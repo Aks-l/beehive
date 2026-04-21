@@ -5,11 +5,13 @@ import {
     restoreAiConversation,
     shareAiConversation
 } from '@utils/ai'
-import { MessageSquarePlus, Share2, Trash2, Undo2 } from 'lucide-react'
+import { Ellipsis, MessageSquarePlus, Undo2 } from 'lucide-react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Input } from 'uibee/components'
+import MenuBar from './menuBar'
+import Marquee from '@components/music/marquee'
 
 type MenuProps = {
     text: AIText
@@ -30,7 +32,7 @@ export default function Menu({
 }: MenuProps) {
     const [deletingConversationId, setDeletingConversationId] = useState<string | null>(null)
     const [restoringConversationId, setRestoringConversationId] = useState<string | null>(null)
-    const [sharingConversationId, setSharingConversationId] = useState<string | null>(null)
+    const [sidebar, setSidebar] = useState<string | null>(null)
     const [showDeleted, setShowDeleted] = useState(false)
     const [sessionId, setSessionId] = useState('')
     const [deletedConversations, setDeletedConversations] = useState<ChatConversationSummary[]>([])
@@ -87,17 +89,26 @@ export default function Menu({
         }
     }
 
+    function handleMenuItemSidebar(event: React.MouseEvent, conversationId: string) {
+        if (sidebar === conversationId) {
+            setSidebar(null)
+            return
+        }
+        event.stopPropagation()
+        setSidebar(conversationId)
+    }
+
     async function handleShareConversation(event: React.MouseEvent, conversationId: string) {
         event.stopPropagation()
 
         try {
-            setSharingConversationId(conversationId)
+            setSidebar(conversationId)
             const { shareToken } = await shareAiConversation(conversationId)
             await navigator.clipboard.writeText(`${window.location.origin}/ai/shared/${shareToken}`)
         } catch (error) {
             console.error('Failed to share conversation', error)
         } finally {
-            setSharingConversationId(null)
+            setSidebar(null)
         }
     }
 
@@ -119,7 +130,7 @@ export default function Menu({
 
     function getConversationClassName(isActive: boolean) {
         return isActive
-            ? 'border-(--color-primary) bg-(--color-bg-body)'
+            ? 'border-(--color-primary) bg-grey-700/10'
             : `border-transparent bg-transparent
                 hover:border-(--color-border-default)
                 hover:bg-(--color-bg-body)`
@@ -134,13 +145,11 @@ export default function Menu({
     const visibleConversations = showDeleted ? deletedConversations : conversations
 
     return (
-        <aside className={`relative flex min-h-0 flex-col p-6
-            1000px:before:content-[''] 1000px:before:w-[2.6rem]
-            1000px:before:h-[2.6rem] 1000px:before:absolute
-            1000px:before:border-t-[0.7rem] 1000px:before:border-r-[0.7rem]
-            1000px:before:border-b-0 1000px:before:border-l-0
-            1000px:before:border-(--color-border-default)
-            1000px:before:top-0 1000px:before:right-0 1000px:before:transition`}
+        <aside className={`relative flex min-h-0 flex-col p-6 before:absolute
+            before:content-[''] before:w-[2.6rem] before:h-[2.6rem]
+            before:border-t-[0.7rem] before:border-r-[0.7rem] before:border-b-0
+            before:border-(--color-border-default) before:border-l-0
+            before:top-0 before:right-0 before:transition`}
         >
             {/* new chat */}
             <Link
@@ -183,43 +192,37 @@ export default function Menu({
                                     router.push(`/ai/${conversation.id}`)
                                 }
                             }}
-                            className={`group w-full rounded-lg p-2 text-left transition
+                            className={`
+                                group w-full rounded-lg p-2 text-left transition
+                                cursor-pointer
                                 ${getConversationClassName(isActive)}`}
                         >
                             <div className='flex items-start justify-between gap-3'>
-                                <p className='text-sm text-(--color-text-main)'>
-                                    {conversation.title}
-                                </p>
-                                <span className='flex shrink-0 items-center'>
+                                <Marquee
+                                    className='truncate'
+                                    innerClassName='text-sm text-neutral-500'
+                                    text={conversation.title}
+                                />
+                                <span onMouseLeave={() => setSidebar(null)} className='flex shrink-0 items-center'>
                                     {!showDeleted ? (
                                         <>
                                             <button
                                                 type='button'
                                                 aria-label={`${text.share}: ${conversation.title}`}
-                                                onClick={(event) =>
-                                                    void handleShareConversation(event, conversation.id)}
+                                                onClick={(event) => handleMenuItemSidebar(event, conversation.id)}
                                                 className={`
                                                     rounded p-1 opacity-0 transition group-hover:opacity-60 hover:opacity-100 cursor-pointer
-                                                `}
+                                                    `}
                                             >
-                                                <Share2
-                                                    className={`h-4 w-4 ${
-                                                        sharingConversationId === conversation.id
-                                                            ? 'text-(--color-primary)'
-                                                            : ''
-                                                    }`}
-                                                />
+                                                <Ellipsis className='h-4 w-4' />
                                             </button>
-                                            <button
-                                                type='button'
-                                                aria-label={`${text.delete}: ${conversation.title}`}
-                                                onClick={(event) =>
-                                                    void handleDeleteConversation(event, conversation.id)}
-                                                className={`rounded p-1 opacity-0 transition group-hover:opacity-60
-                                                    hover:opacity-100 ${getDeleteIconClassName(conversation.id)}`}
-                                            >
-                                                <Trash2 className='h-4 w-4' />
-                                            </button>
+                                            {sidebar === conversation.id && <MenuBar
+                                                text={text}
+                                                conversation={conversation}
+                                                handleShareConversation={handleShareConversation}
+                                                handleDeleteConversation={handleDeleteConversation}
+                                                getDeleteIconClassName={getDeleteIconClassName}
+                                            />}
                                         </>
                                     ) : (
                                         <button

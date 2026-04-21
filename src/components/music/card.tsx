@@ -64,13 +64,12 @@ export default function Card<T>({
         }
     }
 
-    const textIsObject = Object.keys(text as UserText).length
     const display = current === 'listens'
-        ? (textIsObject ? (text as UserText).active : (text as UserText).skipping)
-        : text as string
+        ? typeof text === 'string' ? text : text.active
+        : typeof text === 'string' ? text : text.skipping
     const opposite = current === 'listens'
-        ? (textIsObject ? (text as UserText).skipping : (text as UserText).active)
-        : text as string
+        ? typeof text === 'string' ? text : text.skipping
+        : typeof text === 'string' ? text : text.active
 
     return (
         <div className={`bg-(--color-bg-surface) rounded-lg w-full ${removePadding ? '' : 'p-4'} ${className}`}>
@@ -86,7 +85,7 @@ export default function Card<T>({
                 onClick={toggleOpen}
             >
                 <div className='flex gap-2 w-full'>
-                    {!changeValues && <h1 className={titleStyle}>{(text as UserText).reveal}</h1>}
+                    {!changeValues && <h1 className={titleStyle}>{typeof text === 'string' ? text : text.reveal}</h1>}
                     {changeValues && current && <h1 className={titleStyle}>
                         {display}
                     </h1>}

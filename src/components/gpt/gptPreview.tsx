@@ -87,9 +87,9 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
                 <h1 className='w-full text-center text-[1.35rem] mt-40'>{text.help}</h1>
             </div>
             <div
-                className='mx-auto w-full max-w-5xl rounded-lg
+                className='mx-auto w-full max-w-5xl rounded-full
                     border border-(--color-border-default)
-                    bg-(--color-bg-surface) px-4 py-3 600px:px-8'
+                    bg-(--color-bg-surface) px-4 py-3'
             >
                 <form onSubmit={handleSubmit} className={`flex ${input.includes('\n') ? 'items-end' : 'items-center'} gap-3`}>
                     <Sparkles className='h-5 stroke-primary-500' />
