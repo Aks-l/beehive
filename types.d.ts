@@ -852,6 +852,7 @@ declare global {
         userName: string | null
         sessionId: string
         isLoggedIn: boolean
+        hideTemporaryBanner: boolean
     }
 
     type GptSocketMessage = {
@@ -913,6 +914,7 @@ declare global {
         loadFromSession: string
         temporaryBanner: string
         copySessionId: string
+        dismissBanner: string
         loginToSave: string
         loggedInBanner: string
         askFollowup: string

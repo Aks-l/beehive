@@ -38,7 +38,7 @@ export default function PageClient({
                             <h1 className='heading-1 heading-1--top-left-corner mb-0!'>
                                 {text.title}
                             </h1>
-                            <p className='mt-3 text-(--color-text-regular)'>
+                            <p className='mt-3 border-l-4 border-l-(--color-primary) pl-3 text-(--color-text-regular)'>
                                 {summary.healthyServices === summary.totalServices
                                     ? text.allOperational
                                     : text.someIssues}

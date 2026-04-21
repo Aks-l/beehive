@@ -140,7 +140,7 @@ export default function Messages({
     }, [id])
 
     return (
-        <div ref={messageViewportRef} className='flex-1 overflow-y-auto'>
+        <div ref={messageViewportRef} className='flex-1 overflow-y-auto px-5 py-4 1000px:px-8'>
             {isLoadingChat && !chatSession ? (
                 <div className='flex h-full items-center justify-center text-sm text-(--color-text-discreet)'>
                     {text.loadingConversation}

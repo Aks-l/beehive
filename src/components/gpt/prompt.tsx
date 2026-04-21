@@ -25,8 +25,8 @@ export default function Prompt({
             <form
                 onSubmit={handleSubmit}
                 className='mx-auto flex w-full max-w-5xl items-end
-                    rounded-full border p-2 bg-(--color-bg-surface)
-                    border-(--color-border-default) gap-3 pl-6 pr-3'
+                    rounded-2xl border p-2 bg-(--color-bg-surface)
+                    border-(--color-border-default) gap-3 pl-4 pr-2 1000px:rounded-full 1000px:pl-6 1000px:pr-3'
             >
                 <textarea
                     ref={textareaRef}

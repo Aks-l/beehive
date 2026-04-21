@@ -4,12 +4,13 @@ import no from '@text/layout/no.json'
 import en from '@text/layout/en.json'
 import Image from 'next/image'
 import Link from 'next/link'
-import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
+import { getCookie } from 'utilbee'
 
-export default async function Footer() {
+export default function Footer() {
     const currentDate = new Date()
     const currentYear = currentDate.getFullYear()
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang(getCookie('lang'))
     const text = lang === 'no' ? no : en
 
     return (
@@ -44,20 +45,22 @@ export default async function Footer() {
                     <p className='text-center text-(--color-text-footer-discret) pt-8'>{text.footer.sponsor}</p>
                 </div>
             </div>
-            <div className='grid w-full max-w-60
+            <div className='grid w-full max-w-60 mt-16 self-start
                 sm:max-w-88 md:col-start-2 md:row-start-1 md:max-w-136
                 md:justify-self-center md:mt-0'
             >
-                <h4 className='text-(--color-text-footer-discret) font-medium text-sm tracking-widest -mb-2'>
-                    {text.footer.sites.title}
-                </h4>
-                <div className='text-(--color-text-footer) -mt-10 grid -space-y-20'>
-                    <Link className='text-(--color-text-footer)' href='/policy'>{text.footer.sites.nav.policy}</Link>
-                    <Link className='text-(--color-text-footer)' href='/search'>{text.footer.sites.nav.search}</Link>
-                    <Link className='text-(--color-text-footer)' href='/pwned'>{text.footer.sites.nav.pwned}</Link>
+                <div>
+                    <h4 className='pb-2 text-(--color-text-footer-discret) font-medium text-sm tracking-widest'>
+                        {text.footer.sites.title}
+                    </h4>
+                    <div className='text-(--color-text-footer)'>
+                        <Link className='block text-(--color-text-footer)' href='/policy'>{text.footer.sites.nav.policy}</Link>
+                        <Link className='block text-(--color-text-footer)' href='/search'>{text.footer.sites.nav.search}</Link>
+                        <Link className='block text-(--color-text-footer)' href='/pwned'>{text.footer.sites.nav.pwned}</Link>
+                    </div>
                 </div>
             </div>
-            <div className='grid w-full max-w-60 mt-16 gap-8 sm:grid-cols-2
+            <div className='grid w-full max-w-60 mt-16 gap-8 self-start sm:grid-cols-2
                 sm:max-w-88 sm:justify-items-end sm:justify-self-end
                 md:col-start-2 md:row-start-1 md:max-w-136
                 md:justify-self-end md:mt-0 md:gap-0'

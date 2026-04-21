@@ -5,6 +5,7 @@ import {
     restoreAiConversation,
     shareAiConversation
 } from '@utils/ai'
+import clsx from '@utils/clsx'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Input } from 'uibee/components'
@@ -19,6 +20,7 @@ type MenuProps = {
     loadConversations: (background?: boolean) => void
     id: string
     identity?: AIIdentity
+    className?: string
 }
 
 export default function Menu({
@@ -28,6 +30,7 @@ export default function Menu({
     loadConversations,
     id,
     identity,
+    className,
 }: MenuProps) {
     const [deletingConversationId, setDeletingConversationId] = useState<string | null>(null)
     const [restoringConversationId, setRestoringConversationId] = useState<string | null>(null)
@@ -35,6 +38,7 @@ export default function Menu({
     const [showDeleted, setShowDeleted] = useState(false)
     const [sessionId, setSessionId] = useState('')
     const [deletedConversations, setDeletedConversations] = useState<ChatConversationSummary[]>([])
+    const [copiedSessionId, setCopiedSessionId] = useState(false)
     const router = useRouter()
 
     useEffect(() => {
@@ -127,6 +131,19 @@ export default function Menu({
         }
     }
 
+    async function handleCopySessionId() {
+        if (!identity?.sessionId) {
+            return
+        }
+
+        try {
+            await navigator.clipboard.writeText(identity.sessionId)
+            setCopiedSessionId(true)
+        } catch (error) {
+            console.error('Failed to copy session id', error)
+        }
+    }
+
     function getConversationClassName(isActive: boolean) {
         return isActive
             ? 'border-(--color-primary) bg-grey-700/10'
@@ -143,12 +160,25 @@ export default function Menu({
 
     const visibleConversations = showDeleted ? deletedConversations : conversations
 
+    useEffect(() => {
+        if (!copiedSessionId) {
+            return
+        }
+
+        const timeout = setTimeout(() => setCopiedSessionId(false), 600)
+        return () => clearTimeout(timeout)
+    }, [copiedSessionId])
+
     return (
-        <aside className={`relative flex min-h-0 flex-col p-6 before:absolute
-            before:content-[''] before:w-[2.6rem] before:h-[2.6rem]
-            before:border-t-[0.7rem] before:border-r-[0.7rem] before:border-b-0
-            before:border-(--color-border-default) before:border-l-0
-            before:top-0 before:right-0 before:transition`}
+        <aside
+            className={clsx(
+                `relative flex min-h-0 flex-col p-6 before:absolute
+                before:content-[''] before:w-[2.6rem] before:h-[2.6rem]
+                before:border-t-[0.7rem] before:border-r-[0.7rem] before:border-b-0
+                before:border-(--color-border-default) before:border-l-0
+                before:top-0 before:right-0 before:transition`,
+                className
+            )}
         >
             <NewChatLink text={text} />
             <PreviousChatsHeader
@@ -185,6 +215,15 @@ export default function Menu({
                             className='bottom-4 h-7'
                         />
                     </form>
+                ) : null}
+                {!identity?.isLoggedIn && identity?.sessionId ? (
+                    <button
+                        type='button'
+                        onClick={() => void handleCopySessionId()}
+                        className='cursor-pointer rounded-lg bg-(--color-bg-surface) py-1.75 text-sm text-(--color-text-main) 1000px:hidden'
+                    >
+                        {copiedSessionId ? text.copied : text.copySessionId}
+                    </button>
                 ) : null}
                 <button
                     type='button'

@@ -15,6 +15,7 @@ import Messages from '@components/gpt/messages'
 import UnavailableBanner from '@components/gpt/unavailableBanner'
 import Menu from '@components/gpt/menu/menu'
 import AnonymousDisclaimer from '@components/gpt/anonymousDisclaimer'
+import MobileMenu from '@components/gpt/mobileMenu'
 
 export default function PageClient({
     id,
@@ -41,7 +42,7 @@ export default function PageClient({
         sendPrompt,
         switchConversationClient
     } = useGpt()
-    const text = (lang === 'no' ? no : en).conversation
+    const text = ((lang === 'no' ? no : en).conversation) as AIText
     const [input, setInput] = useState('')
     const [selectedClient, setSelectedClient] = useState('')
     const [isSwitching, setIsSwitching] = useState(false)
@@ -138,8 +139,8 @@ export default function PageClient({
     )
 
     return (
-        <div className='page-section--without-gaps h-full min-h-full'>
-            <div className='grid h-full min-h-0 grid-cols-6'>
+        <div className='page-section--without-gaps h-full min-h-0 overflow-hidden'>
+            <div className='grid h-full min-h-0 grid-cols-6 overflow-hidden'>
                 <Menu
                     text={text}
                     isLoadingConversations={isLoadingConversations}
@@ -147,9 +148,22 @@ export default function PageClient({
                     loadConversations={loadConversations}
                     id={id}
                     identity={identity}
+                    className='hidden 1000px:flex'
                 />
 
-                <section className='flex min-h-full flex-col bg-(--color-bg-main) col-span-5'>
+                <section className={`
+                    relative col-span-6 flex h-full min-h-0 flex-col 
+                    overflow-hidden bg-(--color-bg-main) pt-16 1000px:col-span-5
+                    1000px:pt-0
+                `}>
+                    <MobileMenu
+                        text={text}
+                        isLoadingConversations={isLoadingConversations}
+                        conversations={conversations}
+                        loadConversations={loadConversations}
+                        id={id}
+                        identity={identity}
+                    />
                     <AnonymousDisclaimer
                         identity={identity}
                         conversations={conversations}

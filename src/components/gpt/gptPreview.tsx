@@ -80,49 +80,57 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
         <div
             role='status'
             aria-live='polite'
-            className='relative z-1 flex h-[calc(100%-10rem)] flex-col
-                justify-center gap-5'
+            className='relative z-1 flex h-full min-h-0 flex-col justify-center gap-4
+                px-0 pb-4 1000px:gap-5 1000px:px-0 1000px:pb-0'
         >
-            <div className='w-full justify-center items-center mt-25'>
-                <h1 className='w-full text-center text-[1.35rem] mt-40'>{text.help}</h1>
+            <div className='flex w-full items-center justify-center pt-4 1000px:pt-0'>
+                <h1 className='w-full text-center text-[1.2rem] 700px:text-[1.35rem]'>{text.help}</h1>
             </div>
             <div
-                className='mx-auto w-full max-w-5xl rounded-full
+                className='mx-auto w-full max-w-5xl rounded-2xl
                     border border-(--color-border-default)
-                    bg-(--color-bg-surface) px-4 py-3'
+                    bg-(--color-bg-surface) px-4 py-3 1000px:rounded-full'
             >
-                <form onSubmit={handleSubmit} className={`flex ${input.includes('\n') ? 'items-end' : 'items-center'} gap-3`}>
-                    <Sparkles className='h-5 stroke-primary-500' />
-                    <textarea
-                        ref={textareaRef}
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        rows={1}
-                        onKeyDown={(e) => {
-                            if (e.key === 'Enter' && !e.shiftKey) {
-                                e.preventDefault()
-                                e.currentTarget.form?.requestSubmit()
-                            }
-                        }}
-                        className='inline-block w-full resize-none overflow-y-auto bg-transparent outline-none noscroll'
-                        placeholder={text.ask[random]}
-                    />
-                    {model && <span
-                        className='rounded-full border border-(--color-border-default)
-                            bg-(--color-bg-body) px-4 py-2 text-[0.75rem] font-semibold
-                            uppercase tracking-widest text-(--color-text-discreet) shrink-0'
-                    >
-                        {model}
-                    </span>}
-                    {input.length > 0 && <button
-                        type='submit'
-                        className='rounded-full border cursor-pointer
-                            border-(--color-border-default) shrink-0
-                            bg-(--color-bg-body) p-2 text-[0.75rem] font-semibold
-                            uppercase tracking-widest text-(--color-text-discreet)'
-                    >
-                        <ArrowUp className='w-4 h-4' />
-                    </button>}
+                <form onSubmit={handleSubmit} className='flex flex-col gap-3 900px:flex-row 900px:items-end'>
+                    <div className='flex items-start gap-3'>
+                        <Sparkles className='mt-1 h-5 shrink-0 stroke-primary-500' />
+                        <textarea
+                            ref={textareaRef}
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            rows={1}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' && !e.shiftKey) {
+                                    e.preventDefault()
+                                    e.currentTarget.form?.requestSubmit()
+                                }
+                            }}
+                            className='inline-block min-h-6 w-full resize-none overflow-y-auto bg-transparent outline-none noscroll'
+                            placeholder={text.ask[random]}
+                        />
+                    </div>
+                    <div className={`
+                        grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3
+                        900px:ml-auto 900px:flex 900px:items-center 900px:justify-end
+                    `}>
+                        {model && <span
+                            className='min-w-0 truncate rounded-xl border border-(--color-border-default)
+                                bg-(--color-bg-body) px-3 py-2 text-[0.7rem] font-semibold
+                                uppercase tracking-[0.18em] text-(--color-text-discreet)
+                                1000px:rounded-full 1000px:px-4 1000px:text-[0.75rem]'
+                        >
+                            {model}
+                        </span>}
+                        {input.length > 0 && <button
+                            type='submit'
+                            className='cursor-pointer rounded-xl border
+                                border-(--color-border-default) shrink-0
+                                bg-(--color-bg-body) p-2 text-[0.75rem] font-semibold
+                                uppercase tracking-widest text-(--color-text-discreet) 1000px:rounded-full'
+                        >
+                            <ArrowUp className='w-4 h-4' />
+                        </button>}
+                    </div>
                 </form>
             </div>
 
@@ -138,7 +146,7 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
 
             <div className='mx-auto grid w-full max-w-5xl gap-3 1000px:grid-cols-2'>
                 <article className='rounded-(--border-radius) border
-                    border-(--color-border-default) bg-(--color-bg-surface) p-3'
+                    border-(--color-border-default) bg-(--color-bg-surface) p-3 overflow-hidden'
                 >
                     <div className='w-40 rounded-full'>
                         <h1 className='font-semibold'>{text.metrics}</h1>
@@ -147,7 +155,7 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
                         <h1 className='text-sm'>{active} {active === 1 ? text.user : text.users} {text.active}</h1>
                     </div>
                     <div className='h-px w-[85%] my-2 bg-linear-to-r from-(--color-text-disabled) to-transparent' />
-                    <div className='mt-0.5 w-full rounded-full opacity-85 grid grid-cols-4'>
+                    <div className='mt-0.5 grid w-full grid-cols-2 gap-y-3 opacity-85 700px:grid-cols-4'>
                         <div>
                             <h1 className='text-xs text-(--color-text-discreet)'>RAM</h1>
                             <h1 className={ramColor}>{totalLoad.ram}%</h1>
@@ -167,12 +175,12 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
                     </div>
                 </article>
                 <article className='rounded-(--border-radius) border
-                    border-(--color-border-default) bg-(--color-bg-surface) p-3'
+                    border-(--color-border-default) bg-(--color-bg-surface) p-3 overflow-hidden'
                 >
                     <div className='w-56 rounded-full'>
                         <h1>{text.models}</h1>
                     </div>
-                    <div className='mt-2 w-full rounded-full opacity-85'>
+                    <div className='mt-2 w-full rounded-full opacity-85 wrap-break-word'>
                         {gpt.clients.map((client) => <h1 key={client.name}>{client.name}</h1>)}
                     </div>
                 </article>

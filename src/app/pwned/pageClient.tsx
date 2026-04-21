@@ -42,7 +42,7 @@ export default function PageClient({pwnedNumber, lang}: PageClientProps){
     const meme = memes.pwned[pwnedNumber] || memes.pwned[0] || { text: 'Pwned!', image: '' }
 
     return (
-        <div className='h-[calc(100vh-var(--h-topbar))] w-full grid grid-rows-[auto,1fr,auto] justify-items-center items-center'>
+        <div className='h-full min-h-0 w-full overflow-hidden grid grid-rows-[auto,1fr,auto] justify-items-center items-center'>
             <h1 className='text-xl font-semibold px-8 max-w-240 text-center'>
                 {meme.text}
             </h1>

@@ -15,6 +15,7 @@ export default async function page() {
         userName: cookieStore.get('user_name')?.value || null,
         sessionId: cookieStore.get('ai_session_id')?.value || '',
         isLoggedIn: Boolean(cookieStore.get('access_token')?.value),
+        hideTemporaryBanner: cookieStore.get('hideTemporaryAiBanner')?.value === 'true',
     }
     return <PageClient
         clients={clients}
