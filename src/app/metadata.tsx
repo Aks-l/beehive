@@ -54,6 +54,9 @@ const metadata: Metadata = {
         shortcut: '/favicon.ico',
         apple: '/favicon.ico',
     },
+    other: {
+        'apple-itunes-app': 'app-id=1660125165',
+    },
 }
 
 export default metadata

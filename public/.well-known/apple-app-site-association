@@ -11,14 +11,14 @@
                         "comment": "Matches the events and an id"
                     },
                     {
-                        "/": "jobs/*",
-                        "comment": "Matches the jobs and an id"
+                        "/": "career/*",
+                        "comment": "Matches the career pages and an id"
                     }
                 ]
             },
             {
                 "appID": "6QALMLD2Y4.com.eirikhanasand.Login",
-                "paths": ["/events/*", "/jobs/*"]
+                "paths": ["/events/*", "/career/*"]
               }
         ]
     },
