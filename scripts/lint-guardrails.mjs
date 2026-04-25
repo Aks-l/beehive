@@ -192,6 +192,15 @@ function getCanonicalClassSuggestion(token) {
         return `${variants}${utility}-(${variableName})${suffix}`
     }
 
+    const arbitraryOpacityMatch = token.match(/^((?:[^:\s]+:)*)((?:!?[^:\s/][^:\s]*))\/\[(.+)\]$/)
+    if (arbitraryOpacityMatch) {
+        const [, variants, utility, rawValue] = arbitraryOpacityMatch
+        const canonicalOpacity = normalizeOpacityValue(rawValue)
+        if (canonicalOpacity) {
+            return `${variants}${utility}/${canonicalOpacity}`
+        }
+    }
+
     for (const [utilityPattern, scale] of [
         [/^((?:[^:\s]+:)*)((?:-)?(?:p|m)(?:[trblxy])?|gap(?:-[xy])?|space-[xy]|(?:min-|max-)?[wh]|size)-\[(.+)\]$/, canonicalSpacingScale],
         [/^((?:[^:\s]+:)*)((?:-)?text)-\[(.+)\]$/, canonicalTextScale],
@@ -245,6 +254,38 @@ function normalizeSpacingValue(rawValue) {
     }
 
     return `${numeric}rem`
+}
+
+function normalizeOpacityValue(rawValue) {
+    const value = rawValue.trim().toLowerCase()
+    if (value.endsWith('%')) {
+        const numericPercent = Number(value.slice(0, -1))
+        if (Number.isInteger(numericPercent) && numericPercent >= 0 && numericPercent <= 100) {
+            return `${numericPercent}`
+        }
+
+        return null
+    }
+
+    const numeric = Number(value)
+    if (!Number.isFinite(numeric) || numeric < 0 || numeric > 100) {
+        return null
+    }
+
+    if (numeric <= 1) {
+        const percentage = numeric * 100
+        if (Number.isInteger(percentage)) {
+            return `${percentage}`
+        }
+
+        return null
+    }
+
+    if (Number.isInteger(numeric)) {
+        return `${numeric}`
+    }
+
+    return null
 }
 
 function getJsxAttributeText(node, name) {
