@@ -74,7 +74,7 @@ export default async function JobadPage({ params }: PromisedPageProps) {
                                         <DefaultJobBanner color='#545b5f' className='h-full w-full' transition={true} />
                                     )}
                                 </div>
-                                <div className='text-[1.5rem] my-auto leading-[1.4em] whitespace-pre-line wrap-break-word hyphens-auto'>
+                                <div className='text-2xl my-auto leading-[1.4em] whitespace-pre-line wrap-break-word hyphens-auto'>
                                     {/* @ts-ignore */}
                                     {jobad.organization.link_homepage ? (
                                         <a

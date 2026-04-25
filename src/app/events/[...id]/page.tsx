@@ -79,7 +79,7 @@ async function Event({ event }: { event: GetEventProps }) {
                         color={event.category.color}
                     />
                     <div className='my-auto'>
-                        <div className='flex items-center text-[1.25rem] text-(--color-text-discreet)'>
+                        <div className='flex items-center text-xl text-(--color-text-discreet)'>
                             {isOngoing(
                                 // @ts-ignore
                                 new Date(event.time_start),

@@ -53,7 +53,7 @@ const components = {
     h4: ({children}: {children: ReactNode}) => (
         <h4 className={clsx(
             'my-[1.5em] mb-[0.5em] leading-[1.2em] text-(--color-text-main)',
-            'font-semibold text-[1rem] 400px:text-[1.1rem] 800px:text-[1.4rem]'
+            'font-semibold text-base 400px:text-[1.1rem] 800px:text-[1.4rem]'
         )}
         >
             {children}

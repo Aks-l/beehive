@@ -98,7 +98,7 @@ export default async function JobadsListItem({ jobad }: {jobad: GetJobProps}) {
                         )}
                     </div>
                     <div className='400px:row-start-2 800px:row-start-2'>
-                        <div className='inline-block text-[1.2rem] leading-[1.4em] 600px:text-[1.3rem] 800px:text-[1.5rem]'>
+                        <div className='inline-block text-[1.2rem] leading-[1.4em] 600px:text-[1.3rem] 800px:text-2xl'>
                             {lang === 'en' && jobad.title_en ? jobad.title_en : jobad.title_no}
                         </div>
                         <ul

@@ -12,45 +12,45 @@ type AlertProps = {
 function getIconColor(variant: string): string {
     switch (variant) {
         case 'info':
-            return 'fill-[var(--color-alert-info-icon)]'
+            return 'fill-(--color-alert-info-icon)'
         case 'success':
-            return 'fill-[var(--color-alert-success-icon)]'
+            return 'fill-(--color-alert-success-icon)'
         case 'warning':
-            return 'fill-[var(--color-alert-warning-icon)]'
+            return 'fill-(--color-alert-warning-icon)'
         case 'danger':
-            return 'fill-[var(--color-alert-danger-icon)]'
+            return 'fill-(--color-alert-danger-icon)'
         default:
-            return 'fill-[var(--color-alert-info-icon)]'
+            return 'fill-(--color-alert-info-icon)'
     }
 }
 
 function getBackgroundColor(variant: string): string {
     switch (variant) {
         case 'info':
-            return 'bg-[var(--color-alert-info-bg)]'
+            return 'bg-(--color-alert-info-bg)'
         case 'success':
-            return 'bg-[var(--color-alert-success-bg)]'
+            return 'bg-(--color-alert-success-bg)'
         case 'warning':
-            return 'bg-[var(--color-alert-warning-bg)]'
+            return 'bg-(--color-alert-warning-bg)'
         case 'danger':
-            return 'bg-[var(--color-alert-danger-bg)]'
+            return 'bg-(--color-alert-danger-bg)'
         default:
-            return 'bg-[var(--color-alert-info-bg)]'
+            return 'bg-(--color-alert-info-bg)'
     }
 }
 
 function getTextColor(variant: string): string {
     switch (variant) {
         case 'info':
-            return 'text-[var(--color-alert-info-text)]'
+            return 'text-(--color-alert-info-text)'
         case 'success':
-            return 'text-[var(--color-alert-success-text)]'
+            return 'text-(--color-alert-success-text)'
         case 'warning':
-            return 'text-[var(--color-alert-warning-text)]'
+            return 'text-(--color-alert-warning-text)'
         case 'danger':
-            return 'text-[var(--color-alert-danger-text)]'
+            return 'text-(--color-alert-danger-text)'
         default:
-            return 'text-[var(--color-alert-info-text)]'
+            return 'text-(--color-alert-info-text)'
     }
 }
 
@@ -58,7 +58,7 @@ export default function Alert({ children, variant = 'info', className = '' }: Al
     return (
         <div
             className={clsx(
-                'grid grid-cols-[min-content_auto] items-start gap-2 rounded-[0.5rem] px-[1em] py-[0.5em] pl-[0.8em]',
+                'grid grid-cols-[min-content_auto] items-start gap-2 rounded-lg px-[1em] py-[0.5em] pl-[0.8em]',
                 getBackgroundColor(variant),
                 className
             )}

@@ -185,7 +185,7 @@ export default function SearchAnimationPage({ preferredEngine }: { preferredEngi
                         <h1
                             className='mt-2 text-center text-[2.1rem] font-semibold
                                 leading-[1.05] text-(--color-text-main)
-                                600px:text-[3rem] 1000px:text-[3.5rem]'
+                                600px:text-5xl 1000px:text-[3.5rem]'
                         >
                             {text.entry.playback.title}
                         </h1>
@@ -230,7 +230,7 @@ export default function SearchAnimationPage({ preferredEngine }: { preferredEngi
                                         ref={queryLineRef}
                                         title={isPlaying ? typedQuery : query}
                                         className='flex min-h-[1.8rem] min-w-0 flex-1 items-center
-                                            overflow-x-auto whitespace-nowrap text-[1rem]'
+                                            overflow-x-auto whitespace-nowrap text-base'
                                     >
                                         <span className='inline-block'>{isPlaying ? typedQuery : query}</span>
                                         <span
@@ -241,7 +241,7 @@ export default function SearchAnimationPage({ preferredEngine }: { preferredEngi
                                     </p>
                                     {engineName(engine, text) && <span
                                         className='rounded-full border border-(--color-border-default)
-                                            bg-(--color-bg-body) px-3 py-1 text-[0.75rem] font-semibold
+                                            bg-(--color-bg-body) px-3 py-1 text-xs font-semibold
                                             uppercase tracking-widest text-(--color-text-discreet) shrink-0'
                                     >
                                         {engineName(engine, text)}
@@ -251,7 +251,7 @@ export default function SearchAnimationPage({ preferredEngine }: { preferredEngi
 
                             <div className='mx-auto flex items-center gap-2'>
                                 <span className='h-2 w-2 rounded-full bg-(--color-primary) animate-pulse' />
-                                <p className='text-center text-[1rem] font-semibold text-(--color-text-main)'>
+                                <p className='text-center text-base font-semibold text-(--color-text-main)'>
                                     {stageLabel(stage)}
                                 </p>
                             </div>

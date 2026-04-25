@@ -134,7 +134,7 @@ export default function SearchPage({ preferredEngine }: { preferredEngine: Engin
                                 placeholder={text.entry.queryPlaceholder}
                                 className='w-full rounded-(--border-radius)
                                     border border-(--color-border-default) bg-(--color-bg-surface-raised)
-                                    px-4 py-3 text-[1rem] outline-none transition-all duration-200
+                                    px-4 py-3 text-base outline-none transition-all duration-200
                                     focus:border-(--color-primary)
                                     focus:shadow-[0_0_0_0.2rem_color-mix(in_oklab,var(--color-primary)_24%,transparent)]'
                             />
@@ -151,7 +151,7 @@ export default function SearchPage({ preferredEngine }: { preferredEngine: Engin
                                     setCopied(false)
                                 }}
                                 className='rounded-(--border-radius) border border-(--color-border-default)
-                                    bg-(--color-bg-surface) px-4 py-3 text-[1rem]
+                                    bg-(--color-bg-surface) px-4 py-3 text-base
                                     focus:border-(--color-primary) focus:outline-none'
                             >
                                 <option value='brave'>{text.entry.engines.brave}</option>

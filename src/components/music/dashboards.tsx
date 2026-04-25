@@ -7,7 +7,7 @@ import en from '@text/music/en.json'
 
 export default function Dashboards({lang}: {lang: Lang}) {
     const text = (lang === 'no' ? no : en)
-    const style = 'flex items-center gap-4 p-4 rounded-lg bg-[var(--color-bg-surface)] shadow-none w-full font-semibold'
+    const style = 'flex items-center gap-4 p-4 rounded-lg bg-(--color-bg-surface) shadow-none w-full font-semibold'
 
     function handleClick() {
         setCookie('shouldReload', 'true')

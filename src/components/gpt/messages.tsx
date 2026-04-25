@@ -45,7 +45,7 @@ export default function Messages({
     const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null)
     const hasPlacedInitialScrollRef = useRef(false)
     const markdownComponents = useMemo<Components>(() => ({
-        h1: ({children}) => <h1 className='my-4 text-[1.5rem] font-semibold leading-tight text-current'>{children}</h1>,
+        h1: ({children}) => <h1 className='my-4 text-2xl font-semibold leading-tight text-current'>{children}</h1>,
         h2: ({children}) => <h2 className='my-4 text-[1.35rem] font-semibold leading-tight text-current'>{children}</h2>,
         h3: ({children}) => <h3 className='my-3 text-[1.2rem] font-semibold leading-tight text-current'>{children}</h3>,
         h4: ({children}) => <h4 className='my-3 text-[1.05rem] font-semibold leading-tight text-current'>{children}</h4>,

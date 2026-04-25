@@ -23,11 +23,11 @@ export default function AccordionItem({ id, title, activeAccordionItem, setActiv
     return (
         <li
             onClick={handleClick}
-            className={clsx(
-                'flex cursor-pointer flex-row items-center p-2 text-[1.3rem]',
-                'transition-all duration-200 hover:bg-(--color-bg-surface-raised)',
-                '800px:p-4 800px:text-[1.5rem]'
-            )}
+            className={`
+                flex cursor-pointer flex-row items-center p-2 text-[1.3rem]
+                transition-all duration-200 hover:bg-(--color-bg-surface-raised)
+                800px:p-4 800px:text-2xl
+            `}
         >
             <ArrowRight
                 className={clsx(

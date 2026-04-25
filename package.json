@@ -1,13 +1,14 @@
 {
   "name": "beehive",
-  "version": "5.7.39",
+  "version": "5.7.40",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "bun --bun next dev",
     "build": "bun --bun next build",
     "start": "PORT=3001 bun --bun next start",
-    "lint": "eslint ./src",
+    "lint:guardrails": "node scripts/lint-guardrails.mjs",
+    "lint": "eslint ./src && bun run lint:guardrails",
     "lint:fix": "eslint ./src --fix"
   },
   "dependencies": {

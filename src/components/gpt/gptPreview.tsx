@@ -117,7 +117,7 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
                             className='min-w-0 truncate rounded-xl border border-(--color-border-default)
                                 bg-(--color-bg-body) px-3 py-2 text-[0.7rem] font-semibold
                                 uppercase tracking-[0.18em] text-(--color-text-discreet)
-                                1000px:rounded-full 1000px:px-4 1000px:text-[0.75rem]'
+                                1000px:rounded-full 1000px:px-4 1000px:text-xs'
                         >
                             {model}
                         </span>}
@@ -125,7 +125,7 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
                             type='submit'
                             className='cursor-pointer rounded-xl border
                                 border-(--color-border-default) shrink-0
-                                bg-(--color-bg-body) p-2 text-[0.75rem] font-semibold
+                                bg-(--color-bg-body) p-2 text-xs font-semibold
                                 uppercase tracking-widest text-(--color-text-discreet) 1000px:rounded-full'
                         >
                             <ArrowUp className='w-4 h-4' />
@@ -139,7 +139,7 @@ export default function GPTPreview({ gpt, random, lang }: { gpt: GPT, random: nu
                     ${!gpt ? 'bg-(--color-primary)' : gpt.isConnected ? 'bg-green-500' : 'bg-red-500'} 
                     animate-pulse h-2 w-2 rounded-full
                     `} />
-                <p className='text-center text-[1rem] font-semibold text-(--color-text-main)'>
+                <p className='text-center text-base font-semibold text-(--color-text-main)'>
                     {!gpt ? 'Loading' : gpt.isConnected ? text.online : text.offline}
                 </p>
             </div>

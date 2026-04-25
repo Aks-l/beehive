@@ -16,7 +16,7 @@ export default function DropDownBox({ title, children }: { title: ReactNode, chi
                 className={clsx(
                     'flex cursor-pointer justify-between bg-(--color-bg-surface) p-2 pl-4',
                     'text-[1.2rem] transition-colors duration-200 hover:bg-(--color-bg-surface-raised)',
-                    'rounded-(--border-radius) 800px:p-4 800px:text-[1.5rem]',
+                    'rounded-(--border-radius) 800px:p-4 800px:text-2xl',
                     isOpen && 'rounded-b-none rounded-t-[0.3rem]'
                 )}
                 // @ts-ignore
@@ -33,7 +33,7 @@ export default function DropDownBox({ title, children }: { title: ReactNode, chi
             </div>
             <div
                 className={clsx(
-                    'max-h-0 overflow-hidden bg-(--color-bg-surface) text-[1rem]',
+                    'max-h-0 overflow-hidden bg-(--color-bg-surface) text-base',
                     'transition-all duration-300',
                     isOpen && 'h-auto max-h-400 rounded-b-[0.3rem]'
                 )}

@@ -40,7 +40,7 @@ export default function LangToggle({serverLang}: LangToggleProps) {
             onClick={handleClick}
             className={clsx(
                 'flex w-[4.3rem] cursor-pointer flex-row items-center justify-center gap-1',
-                'rounded-(--border-radius) border-none bg-transparent p-2 text-[1rem]',
+                'rounded-(--border-radius) border-none bg-transparent p-2 text-base',
                 'leading-8 text-(--color-text-main) hover:bg-[#6464641a]',
                 'in-[.topbar--open]:text-white'
             )}

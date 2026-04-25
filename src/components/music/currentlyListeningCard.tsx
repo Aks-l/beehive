@@ -69,7 +69,7 @@ export default function CurrentlyListeningCard({ song }: { song: CurrentlyListen
     }
 
     const style = `flex items-center gap-4 px-2 py-10 md:px-2 rounded-lg
-        ${done ? 'bg-[var(--color-text-disabled)]/10' : 'bg-[var(--color-text-disabled)]/30'}
+        ${done ? 'bg-(--color-text-disabled)/10' : 'bg-(--color-text-disabled)/30'}
         shadow-none w-full
         ${song.song_id && 'transform transition hover:scale-[1.015] hover:z-20'}
         min-h-[90px] h-[90px] max-h-[90px]`

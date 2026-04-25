@@ -38,11 +38,11 @@ export default function GroupToggle({
     }
 
     const groupVariantClass = groupVariant === 'outlined'
-        ? 'border-[0.13rem] border-solid border-[var(--color-btn-secondary-outlined)]'
+        ? 'border-[0.13rem] border-solid border-(--color-btn-secondary-outlined)'
         : ''
 
     const groupClass = clsx(
-        'inline-flex overflow-hidden rounded-[var(--border-radius)]',
+        'inline-flex overflow-hidden rounded-(--border-radius)',
         groupVariantClass,
         groupVariant === 'ghost' && 'py-[0.13rem]',
         `group-toggle--${groupVariant}`,
@@ -72,16 +72,16 @@ export default function GroupToggle({
                 const activeStateClass = isActive
                     ? clsx(
                         'active pointer-events-none',
-                        '[&_svg]:fill-[var(--color-primary)]',
-                        '[&_svg_*]:fill-[var(--color-primary)]',
-                        '[&_i]:text-[var(--color-primary)]',
-                        'text-[var(--color-primary)]',
+                        '[&_svg]:fill-(--color-primary)',
+                        '[&_svg_*]:fill-(--color-primary)',
+                        '[&_i]:text-(--color-primary)',
+                        'text-(--color-primary)',
                     )
                     : ''
 
                 const dividerClass = isFirst
                     ? '!border-none'
-                    : '!border-solid !border-y-0 !border-r-0 !border-l-[0.13rem] !border-l-[var(--color-btn-secondary-outlined)]'
+                    : '!border-solid !border-y-0 !border-r-0 !border-l-[0.13rem] !border-l-(--color-btn-secondary-outlined)'
 
                 const buttonClass = clsx(
                     'group-toggle_button !rounded-none',
@@ -89,8 +89,8 @@ export default function GroupToggle({
                     isIconOnly && 'button--icon-only',
                     isFirst && 'group-toggle_button--first',
                     isLast && 'group-toggle_button--last',
-                    groupVariant === 'ghost' && isFirst && '!rounded-l-[var(--border-radius)]',
-                    groupVariant === 'ghost' && isLast && '!rounded-r-[var(--border-radius)]',
+                    groupVariant === 'ghost' && isFirst && '!rounded-l-(--border-radius)',
+                    groupVariant === 'ghost' && isLast && '!rounded-r-(--border-radius)',
                     isIconOnly && iconPaddingBySize[size],
                     activeStateClass,
                 )

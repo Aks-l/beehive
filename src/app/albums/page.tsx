@@ -127,8 +127,8 @@ function cardStack(count: number, renderItem: (index: number, className: string)
             + 'left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2'
         const positionClasses =
             index === 0 ? 'z-30 rotate-0 scale-100' :
-                index === 1 ? 'z-20 -rotate-6 scale-95 -translate-x-[55%] -translate-y-[55%]' :
-                    'z-10 rotate-6 scale-95 -translate-x-[45%] -translate-y-[45%]'
+                index === 1 ? 'z-20 -rotate-6 scale-95 translate-x-[-55%] translate-y-[-55%]' :
+                    'z-10 rotate-6 scale-95 translate-x-[-45%] translate-y-[-45%]'
         return `${baseClasses} ${positionClasses}`
     }
 

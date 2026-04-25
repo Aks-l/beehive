@@ -29,7 +29,7 @@ export default async function EventListItem({ event, highlight = true, disableTa
     const eventDetailIconClass =
         'pr-[0.3rem] text-[1.3em] align-top text-(--color-text-regular)'
     const itemClassName = clsx(
-        'group p-[2px] cursor-pointer rounded-[0.4rem] mx-auto list-none transition-[background] duration-200',
+        'group p-0.5 cursor-pointer rounded-[0.4rem] mx-auto list-none transition-[background] duration-200',
         highlight && '[background:var(--gradient-highlight)] hover:[background:var(--gradient-highlight-hover)]',
         isCard ? 'w-full max-w-[30rem] h-full' : (highlight ? 'my-4' : 'my-[0.2rem]')
     )
@@ -46,7 +46,7 @@ export default async function EventListItem({ event, highlight = true, disableTa
         'hidden 600px:block 600px:max-h-20 600px:w-[12.5rem] 600px:h-full 600px:rounded-[0.2rem]'
     )
     const infoClassName = clsx(
-        'grow flex flex-col whitespace-pre-line break-words [-ms-word-break:break-word]',
+        'grow flex flex-col whitespace-pre-line wrap-break-word [-ms-word-break:break-word]',
         '[-ms-hyphens:auto] [-moz-hyphens:auto] [-webkit-hyphens:auto] hyphens-auto',
         isCard ? 'mt-[0.8rem]' : 'min-w-40 my-auto pl-3 600px:px-4'
     )
@@ -60,7 +60,7 @@ export default async function EventListItem({ event, highlight = true, disableTa
         'list-none grow flex flex-wrap text-[#e6e6e6]',
         isCard
             ? 'mt-2 gap-y-[0.1rem] gap-x-2 350px:gap-x-4 400px:gap-x-[1.2rem]'
-            : 'mt-[0.2rem] gap-y-[0.1rem] gap-x-2 600px:gap-y-[0.2rem] 600px:gap-x-4 700px:gap-y-[0.5rem] 700px:gap-x-[1.2rem]'
+            : 'mt-[0.2rem] gap-y-[0.1rem] gap-x-2 600px:gap-y-[0.2rem] 600px:gap-x-4 700px:gap-y-2 700px:gap-x-[1.2rem]'
     )
     const tagsClassName = clsx('flex gap-2', isCard ? 'mt-4' : 'mt-2 flex-wrap 700px:mt-[0.7rem]')
     const dateOverlayClassName = 'absolute top-[0.4rem] left-[0.4rem] z-2'

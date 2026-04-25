@@ -51,13 +51,13 @@ const socialLinks: SocialLink[] = [
         name: 'Norsk Tipping',
         url: config.url.norskTipping,
         logoSrc: '/img/Norsk_Tipping.svg',
-        logoContainerClass: 'w-[1.5rem] h-[1.5rem]',
-        logoClass: 'w-[1.5rem] h-[1.5rem]'
+        logoContainerClass: 'w-6 h-6',
+        logoClass: 'w-6 h-6'
     }
 ]
 
 export default function SocialLinks() {
-    const baseIconStyle = 'text-[1.5rem] leading-none transition-all duration-200 text-center block text-[var(--color-text-footer)]'
+    const baseIconStyle = 'text-2xl leading-none transition-all duration-200 text-center block text-(--color-text-footer)'
 
     return (
         <div className='grid justify-between mx-auto mt-20 mb-12 sm:grid-cols-7 grid-cols-3 gap-6 w-fit'>

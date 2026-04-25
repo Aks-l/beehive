@@ -56,7 +56,7 @@ function SlideItem({ image, stateClassName, isActive, title, description, isPaus
         'will-change-transform',
         'w-[72vw] h-[48vw] ml-[-36vw] 600px:w-[60vw] 600px:h-[40vw] 600px:ml-[-30vw]',
         '800px:w-[54vw] 800px:h-[36vw] 800px:ml-[-27vw] 1000px:w-[48vw] 1000px:h-[32vw]',
-        '1000px:ml-[-24vw] 1200px:max-w-[36rem] 1200px:h-[24rem] 1200px:ml-[-18rem]',
+        '1000px:ml-[-24vw] 1200px:max-w-[36rem] 1200px:h-96 1200px:ml-[-18rem]',
         stateClassName,
     )
     const slideTransitionStyle = {
@@ -75,7 +75,7 @@ function SlideItem({ image, stateClassName, isActive, title, description, isPaus
         <div className={slideClassName} style={slideTransitionStyle}>
             <div className={overlayClassName}>
                 <div className='600px:border-l-[0.3rem] 600px:border-l-(--color-primary) 600px:pl-4'>
-                    <h2 className='text-[1.2rem] font-normal text-white 1200px:text-[1.5rem]'>{title}</h2>
+                    <h2 className='text-[1.2rem] font-normal text-white 1200px:text-2xl'>{title}</h2>
                     <p className='text-[rgb(250,250,250)]'>{description}</p>
                 </div>
             </div>
@@ -191,7 +191,7 @@ export default function ImageCarousel({ slides }: {slides: []}) {
     } as const
     const slidesContainerClassName = clsx(
         'relative isolate overflow-hidden w-[120vw] h-[48vw] mb-6 ml-[-10vw] 600px:h-[40vw] 800px:h-[36vw] 1000px:h-[32vw]',
-        '1200px:h-[24rem] 1200px:w-full 1200px:max-w-[140rem] 1200px:mx-auto',
+        '1200px:h-96 1200px:w-full 1200px:max-w-[140rem] 1200px:mx-auto',
         '1200px:mb-8 1200px:overflow-hidden 1200px:flex 1200px:justify-center'
     )
 

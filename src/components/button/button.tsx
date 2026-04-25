@@ -39,72 +39,72 @@ export default function Button({
 
     const variantClassName = {
         primary: clsx(
-            'bg-[var(--color-btn-primary-bg)] text-[var(--color-btn-primary-text)]',
-            '[&_svg]:fill-[var(--color-btn-primary-text)] [&_i]:text-[var(--color-btn-primary-text)]',
-            active ? 'bg-[var(--color-btn-primary-bg-active)]' : 'hover:brightness-95'
+            'bg-(--color-btn-primary-bg) text-(--color-btn-primary-text)',
+            '[&_svg]:fill-(--color-btn-primary-text) [&_i]:text-(--color-btn-primary-text)',
+            active ? 'bg-(--color-btn-primary-bg-active)' : 'hover:brightness-95'
         ),
         secondary: clsx(
-            'bg-[var(--color-btn-secondary-bg)] text-[var(--color-text-main)]',
-            '[&_svg]:fill-[var(--color-text-main)] [&_i]:text-[var(--color-text-main)]',
-            active ? 'bg-[var(--color-btn-secondary-bg-active)]' : 'hover:brightness-95'
+            'bg-(--color-btn-secondary-bg) text-(--color-text-main)',
+            '[&_svg]:fill-(--color-text-main) [&_i]:text-(--color-text-main)',
+            active ? 'bg-(--color-btn-secondary-bg-active)' : 'hover:brightness-95'
         ),
         'primary-outlined': clsx(
-            'border-[0.13rem] border-[var(--color-btn-primary-outlined)] bg-transparent',
-            'text-[var(--color-btn-primary-outlined)]',
-            '[&_svg]:fill-[var(--color-btn-primary-outlined)]',
-            '[&_i]:text-[var(--color-btn-primary-outlined)]',
+            'border-[0.13rem] border-(--color-btn-primary-outlined) bg-transparent',
+            'text-(--color-btn-primary-outlined)',
+            '[&_svg]:fill-(--color-btn-primary-outlined)',
+            '[&_i]:text-(--color-btn-primary-outlined)',
             active
                 ? clsx(
-                    'bg-[var(--color-btn-primary-bg)] text-[var(--color-btn-primary-text)]',
-                    '[&_svg]:fill-[var(--color-btn-primary-text)]',
-                    '[&_i]:text-[var(--color-btn-primary-text)]'
+                    'bg-(--color-btn-primary-bg) text-(--color-btn-primary-text)',
+                    '[&_svg]:fill-(--color-btn-primary-text)',
+                    '[&_i]:text-(--color-btn-primary-text)'
                 )
                 : clsx(
-                    'hover:bg-[var(--color-btn-primary-bg)]',
-                    'hover:text-[var(--color-btn-primary-text)]',
-                    'hover:[&_svg]:fill-[var(--color-btn-primary-text)]',
-                    'hover:[&_i]:text-[var(--color-btn-primary-text)]'
+                    'hover:bg-(--color-btn-primary-bg)',
+                    'hover:text-(--color-btn-primary-text)',
+                    'hover:[&_svg]:fill-(--color-btn-primary-text)',
+                    'hover:[&_i]:text-(--color-btn-primary-text)'
                 )
         ),
         'secondary-outlined': clsx(
-            'border-[0.13rem] border-[var(--color-btn-secondary-outlined)] bg-transparent',
-            'text-[var(--color-text-main)] [&_svg]:fill-[var(--color-text-main)] [&_i]:text-[var(--color-text-main)]',
+            'border-[0.13rem] border-(--color-btn-secondary-outlined) bg-transparent',
+            'text-(--color-text-main) [&_svg]:fill-(--color-text-main) [&_i]:text-(--color-text-main)',
             active
                 ? clsx(
-                    'text-[var(--color-btn-primary-outlined)]',
-                    '[&_svg]:fill-[var(--color-btn-primary-outlined)]',
-                    '[&_i]:text-[var(--color-btn-primary-outlined)]'
+                    'text-(--color-btn-primary-outlined)',
+                    '[&_svg]:fill-(--color-btn-primary-outlined)',
+                    '[&_i]:text-(--color-btn-primary-outlined)'
                 )
-                : 'hover:bg-[var(--color-btn-secondary-outlined)]'
+                : 'hover:bg-(--color-btn-secondary-outlined)'
         ),
         ghost: clsx(
-            'bg-transparent text-[var(--color-text-main)] [&_svg]:fill-[var(--color-text-main)] [&_i]:text-[var(--color-text-main)]',
+            'bg-transparent text-(--color-text-main) [&_svg]:fill-(--color-text-main) [&_i]:text-(--color-text-main)',
             active
                 ? clsx(
-                    'text-[var(--color-btn-primary-outlined)]',
-                    '[&_svg]:fill-[var(--color-btn-primary-outlined)]',
-                    '[&_i]:text-[var(--color-btn-primary-outlined)]'
+                    'text-(--color-btn-primary-outlined)',
+                    '[&_svg]:fill-(--color-btn-primary-outlined)',
+                    '[&_i]:text-(--color-btn-primary-outlined)'
                 )
-                : 'hover:bg-[var(--color-btn-secondary-outlined)]'
+                : 'hover:bg-(--color-btn-secondary-outlined)'
         ),
         danger: clsx(
-            'bg-[var(--color-btn-danger-bg)] text-[var(--color-btn-danger-text)]',
-            '[&_svg]:fill-[var(--color-btn-danger-text)] [&_i]:text-[var(--color-btn-danger-text)]',
-            active ? 'bg-[var(--color-btn-danger-bg-active)]' : 'hover:brightness-95'
+            'bg-(--color-btn-danger-bg) text-(--color-btn-danger-text)',
+            '[&_svg]:fill-(--color-btn-danger-text) [&_i]:text-(--color-btn-danger-text)',
+            active ? 'bg-(--color-btn-danger-bg-active)' : 'hover:brightness-95'
         )
-    }[variant] || 'bg-[var(--color-btn-primary-bg)] text-[var(--color-btn-primary-text)]'
+    }[variant] || 'bg-(--color-btn-primary-bg) text-(--color-btn-primary-text)'
 
     const sizeClassName = {
-        small: 'rounded-[var(--border-radius-small)] px-4 py-[0.35rem] text-[0.875rem] leading-[1.4rem]',
-        medium: 'rounded-[var(--border-radius-small)] px-[1.2rem] py-[0.5rem] text-[1rem] leading-[1.5rem]',
-        large: 'rounded-[var(--border-radius)] px-[1.4rem] py-[0.7rem] text-[1.125rem] leading-[1.6rem]',
-        xl: 'rounded-[var(--border-radius-large)] px-[2rem] py-[1rem] text-[1.3rem] leading-[1.6rem]'
-    }[size] || 'rounded-[var(--border-radius-small)] px-[1.2rem] py-[0.5rem] text-[1rem] leading-[1.5rem]'
+        small: 'rounded-(--border-radius-small) px-4 py-[0.35rem] text-sm leading-[1.4rem]',
+        medium: 'rounded-(--border-radius-small) px-[1.2rem] py-2 text-base leading-6',
+        large: 'rounded-(--border-radius) px-[1.4rem] py-[0.7rem] text-lg leading-[1.6rem]',
+        xl: 'rounded-(--border-radius-large) px-8 py-4 text-[1.3rem] leading-[1.6rem]'
+    }[size] || 'rounded-(--border-radius-small) px-[1.2rem] py-2 text-base leading-6'
 
     const outlinedPaddingClassName = (variant === 'primary-outlined' || variant === 'secondary-outlined')
         ? {
             small: 'px-[0.9rem] py-[0.22rem]',
-            medium: 'px-[1rem] py-[0.37rem]',
+            medium: 'px-4 py-[0.37rem]',
             large: 'px-[1.3rem] py-[0.57rem]',
             xl: 'px-[1.9rem] py-[0.83rem]'
         }[size] || ''
@@ -119,7 +119,7 @@ export default function Button({
             medium:
                 (variant === 'primary-outlined' || variant === 'secondary-outlined')
                     ? 'p-[0.37rem]'
-                    : 'p-[0.5rem]',
+                    : 'p-2',
             large:
                 (variant === 'primary-outlined' || variant === 'secondary-outlined')
                     ? 'p-[0.57rem]'
@@ -127,27 +127,27 @@ export default function Button({
             xl:
                 (variant === 'primary-outlined' || variant === 'secondary-outlined')
                     ? 'p-[0.83rem]'
-                    : 'p-[1rem]'
+                    : 'p-4'
         }[size] || ''
         : ''
 
     const iconClassName = {
         small: '[&_i]:text-[1.4rem] [&_i]:leading-[1.4rem]',
-        medium: '[&_i]:text-[1.5rem] [&_i]:leading-[1.5rem]',
+        medium: '[&_i]:text-2xl [&_i]:leading-6',
         large: '[&_i]:text-[1.6rem] [&_i]:leading-[1.6rem]',
         xl: '[&_i]:text-[1.7rem] [&_i]:leading-[1.6rem]'
-    }[size] || '[&_i]:text-[1.5rem] [&_i]:leading-[1.5rem]'
+    }[size] || '[&_i]:text-2xl [&_i]:leading-6'
 
     const content = (
         <>
             {leadingIcon &&
-                <span className={clsx('flex items-center justify-center', !iconOnly && 'mr-[0.5rem]', iconClassName)}>
+                <span className={clsx('flex items-center justify-center', !iconOnly && 'mr-2', iconClassName)}>
                     {leadingIcon}
                 </span>
             }
             {children && <span>{children}</span>}
             {trailingIcon &&
-                <span className={clsx('flex items-center justify-center', !iconOnly && 'ml-[0.5rem]', iconClassName)}>
+                <span className={clsx('flex items-center justify-center', !iconOnly && 'ml-2', iconClassName)}>
                     {trailingIcon}
                 </span>
             }

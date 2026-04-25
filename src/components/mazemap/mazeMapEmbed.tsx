@@ -192,7 +192,7 @@ export default function MazeMapEmbed({ poi, ...props }: any) {
                                 className={
                                     'flex flex-row items-center absolute z-5 backdrop-blur-[10px] rounded-(--border-radius) ' +
                                     'bg-[rgba(40,40,40,0.4)] left-2 top-2 py-2 px-[.9rem] leading-6 ' +
-                                    'text-white text-[1rem] 400px:left-[.8rem] 400px:top-[.8rem]'
+                                    'text-white text-base 400px:left-[.8rem] 400px:top-[.8rem]'
                                 }
                             >
                                 <Pin className='w-6 h-6 fill-white mt-[-.2rem] mr-[.2rem] ml-[-.4rem]' />
@@ -209,7 +209,7 @@ export default function MazeMapEmbed({ poi, ...props }: any) {
                                 onClick={zoomIn}
                                 className={
                                     '[background:none] outline-none border-0 rounded-t-[.3rem] rounded-b-none ' +
-                                    '[border-bottom:.05rem_solid_rgb(100,100,100)] text-[1.5rem] text-white cursor-pointer ' +
+                                    '[border-bottom:.05rem_solid_rgb(100,100,100)] text-2xl text-white cursor-pointer ' +
                                     'p-2 hover:bg-[rgba(0,0,0,0.1)]'
                                 }
                             >
@@ -219,7 +219,7 @@ export default function MazeMapEmbed({ poi, ...props }: any) {
                                 onClick={zoomOut}
                                 className={
                                     '[background:none] outline-none border-0 rounded-b-[.3rem] rounded-t-none ' +
-                                    'text-[1.5rem] text-white cursor-pointer p-2 hover:bg-[rgba(0,0,0,0.1)]'
+                                    'text-2xl text-white cursor-pointer p-2 hover:bg-[rgba(0,0,0,0.1)]'
                                 }
                             >
                                 <Remove className='w-6 h-6 fill-white' />

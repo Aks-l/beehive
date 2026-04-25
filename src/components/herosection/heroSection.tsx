@@ -19,7 +19,7 @@ export default async function LandingPage() {
                 'h-screen w-full min-h-128 max-h-160',
                 '600px:min-h-160 600px:max-h-180',
                 '800px:[clip-path:ellipse(100%_95%_at_50%_0)]',
-                '1000px:mt-[calc(var(--h-topbar)*-1)] 1000px:max-h-200',
+                '1000px:-mt-(--h-topbar) 1000px:max-h-200',
                 '1200px:max-h-240'
             )}
         >
@@ -46,7 +46,7 @@ export default async function LandingPage() {
                             '1200px:text-[2.4rem] 1200px:leading-12'
                         )}
                     >
-                        <span className='text-[1.5rem] leading-[2.2rem] 800px:text-[1.8rem] 1000px:text-[2.1rem]'>
+                        <span className='text-2xl leading-[2.2rem] 800px:text-[1.8rem] 1000px:text-[2.1rem]'>
                             {text.heroSection.welcome}
                         </span>
                         <br />
