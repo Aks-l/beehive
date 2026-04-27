@@ -62,7 +62,7 @@ export default async function EventsPreview({ lang }: { lang: Lang }) {
                         {/* eslint-disable-next-line */}
                         {events.map((e: any) => (
                             <li key={e.id} className='snap-center w-[80vw] max-w-88 min-w-72 800px:w-full 800px:max-w-md 1000px:m-[0_auto]'>
-                                <EventListItem event={e} variant='card' highlight={false} />
+                                <EventListItem event={e} lang={lang} variant='card' highlight={false} />
                             </li>
                         ))}
                         {events.length > 2 && <EndCard path='/events' lang={lang} />}

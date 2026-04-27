@@ -7,6 +7,8 @@ import Alert from '@components/alert/alert'
 import { getEventRow, getJobRow } from '@utils/api'
 import Link from 'next/link'
 import clsx from '@utils/clsx'
+import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 type CustomLinkProps = {
     href: number
@@ -132,6 +134,8 @@ function ErrorMessage({ err, title }: ErrorMessageProps) {
 
 async function EventEmbed(id: number) {
     const event = await getEventRow(id)
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
+
     if (typeof event === 'string') {
         <ErrorMessage err={event} title={'Error Fetching Event #' + id} />
     }
@@ -139,7 +143,7 @@ async function EventEmbed(id: number) {
     return (
         <div className='my-4 w-full max-w-100 rounded-(--border-radius-large) border-[0.15rem] border-(--color-border-default)'>
             {event
-                ? <EventItem event={event} variant='card' highlight={false} />
+                ? <EventItem event={event} lang={lang} variant='card' highlight={false} />
                 : <p>Event not found</p>
             }
         </div>

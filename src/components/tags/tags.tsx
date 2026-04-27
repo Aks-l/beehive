@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 import { normalizeLang } from '@utils/lang'
 
 type TagsProps = {
+    lang?: Lang
     highlight: boolean,
     timePublish: Date,
     canceled: boolean,
@@ -14,13 +15,14 @@ type TagsProps = {
 }
 
 export default async function Tags({
+    lang: preferredLang,
     highlight,
     timePublish,
     canceled,
     full,
     ongoing
 }: TagsProps) {
-    const lang = normalizeLang((await cookies()).get('lang')?.value)
+    const lang = preferredLang ?? normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     return (

@@ -221,6 +221,7 @@ export default async function JobadPage({ params }: PromisedPageProps) {
                             800px:before:bottom-0 800px:before:right-0 800px:before:transition'
                     >
                         <Article
+                            lang={lang}
                             title={lang == 'en' && jobad.title_en ? jobad.title_en : jobad.title_no}
                             publishTime={new Date(jobad.time_publish)}
                             updateTime={new Date(jobad.updated_at)}

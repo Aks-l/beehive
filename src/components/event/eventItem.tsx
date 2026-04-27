@@ -13,18 +13,22 @@ import { isNew } from '@utils/datetimeFormatter'
 import { formatEventStartDate, isOngoing } from '@utils/datetimeFormatter'
 import clsx from '@utils/clsx'
 import Image from 'next/image'
-import { cookies } from 'next/headers'
 
 type EventListItemProps = {
     event: GetEventProps
+    lang: Lang
     highlight: boolean
     disableTags?: boolean
     variant: string
 }
 
-export default async function EventListItem({ event, highlight = true, disableTags = false, variant='list-item' }: EventListItemProps) {
-    const storedLang = (await cookies()).get('lang')?.value
-    const lang: Lang = (storedLang?.includes('en') ? 'en' : 'no')
+export default function EventListItem({
+    event,
+    lang,
+    highlight = true,
+    disableTags = false,
+    variant='list-item'
+}: EventListItemProps) {
     const isCard = variant === 'card'
     const eventDetailIconClass =
         'pr-[0.3rem] text-[1.3em] align-top text-(--color-text-regular)'
@@ -145,6 +149,7 @@ export default async function EventListItem({ event, highlight = true, disableTa
                         {useTags(event.time_publish, event.highlight, event.canceled, event.is_full, isOngoing(startDate, endDate)) &&
                             <div className={tagsClassName}>
                                 <Tags
+                                    lang={lang}
                                     highlight={event.highlight}
                                     timePublish={new Date(event.time_publish)}
                                     canceled={event.canceled}
