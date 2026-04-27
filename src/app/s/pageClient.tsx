@@ -5,58 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import useLang from '@/hooks/useLang'
 import no from '@text/search/no.json'
 import en from '@text/search/en.json'
+import { buildEngineUrl, decodeSearchPayload } from '@utils/search'
 
-type EngineKey = 'google' | 'duckduckgo' | 'brave'
 type PlaybackStage = 'idle' | 'typing' | 'submitting' | 'redirecting'
-
-function normalizeEngine(value: string | null): EngineKey {
-    if (value === 'duckduckgo' || value === 'brave' || value === 'google') {
-        return value
-    }
-
-    return 'google'
-}
-
-function buildEngineUrl(query: string, engine: EngineKey): string {
-    const encodedQuery = encodeURIComponent(query)
-
-    switch (engine) {
-        case 'duckduckgo': return `https://duckduckgo.com/?q=${encodedQuery}`
-        case 'google': return `https://www.google.com/search?q=${encodedQuery}`
-        default: return `https://search.brave.com/search?q=${encodedQuery}`
-    }
-}
-
-function fromBase64Url(value: string): Uint8Array {
-    const padded = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=')
-    const binary = atob(padded)
-    const bytes = new Uint8Array(binary.length)
-
-    for (let i = 0; i < binary.length; i++) {
-        bytes[i] = binary.charCodeAt(i)
-    }
-
-    return bytes
-}
-
-function decodeSearchPayload(token: string): { query: string; engine: EngineKey } | null {
-    try {
-        const decodedBytes = fromBase64Url(token)
-        const decoder = new TextDecoder()
-        const parsed = JSON.parse(decoder.decode(decodedBytes))
-
-        if (typeof parsed.query !== 'string') {
-            return null
-        }
-
-        return {
-            query: parsed.query,
-            engine: normalizeEngine(parsed.engine ?? null)
-        }
-    } catch {
-        return null
-    }
-}
 
 export default function SearchAnimationPage({ preferredEngine }: { preferredEngine: EngineKey }) {
     const text = useLang(no, en)

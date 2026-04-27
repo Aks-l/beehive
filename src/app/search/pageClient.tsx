@@ -5,35 +5,8 @@ import { useRouter } from 'next/navigation'
 import useLang from '@/hooks/useLang'
 import no from '@text/search/no.json'
 import en from '@text/search/en.json'
+import { encodeSearchPayload, normalizeEngine } from '@utils/search'
 import { setCookie } from 'utilbee'
-
-type EngineKey = 'google' | 'duckduckgo' | 'brave'
-
-function normalizeEngine(value: string): EngineKey {
-    if (value === 'duckduckgo' || value === 'brave' || value === 'google') {
-        return value
-    }
-
-    return 'google'
-}
-
-function toBase64Url(bytes: Uint8Array): string {
-    let binary = ''
-    for (let i = 0; i < bytes.length; i++) {
-        binary += String.fromCharCode(bytes[i])
-    }
-
-    return btoa(binary)
-        .replace(/\+/g, '-')
-        .replace(/\//g, '_')
-        .replace(/=+$/g, '')
-}
-
-function encodeSearchPayload(query: string, engine: EngineKey): string {
-    const encoder = new TextEncoder()
-    const payload = JSON.stringify({ query, engine })
-    return toBase64Url(encoder.encode(payload))
-}
 
 function buildAnimationPath(token: string): string {
     const params = new URLSearchParams({
