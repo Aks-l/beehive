@@ -11,9 +11,10 @@ import Office from '@components/svg/symbols/office'
 import HoldingsTotalLive from './holdings'
 import HoldingsHistory from './holdingsHistory'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 export default async function Fund() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const locale = lang === 'en' ? 'en-GB' : 'nb-NO'
     // eslint-disable-next-line
     const text: any = lang === 'en' ? {...en} : {...no}

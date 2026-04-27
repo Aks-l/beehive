@@ -6,6 +6,7 @@ import Intro from '@components/music/intro'
 import no from '@text/music/no.json'
 import en from '@text/music/en.json'
 import Dashboards from '@components/music/dashboards'
+import { normalizeLang } from '@utils/lang'
 
 export const metadata: Metadata = {
     robots: {
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Music() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const data = await getSafeActivity()
     const text = (lang === 'no' ? no : en)
 

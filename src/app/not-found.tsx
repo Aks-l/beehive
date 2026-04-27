@@ -7,9 +7,10 @@ import en from '@text/404/en.json'
 import Image from 'next/image'
 import West from '@components/svg/symbols/west'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 export default async function NotFoundPage() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     return (

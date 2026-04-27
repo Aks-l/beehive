@@ -5,9 +5,10 @@ import Flowsheet from '@components/svg/symbols/flowsheet'
 import Megaphone from '@components/svg/symbols/megaphone'
 import Wrench from '@components/svg/symbols/wrench'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 export default async function CompaniesPage() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     return (

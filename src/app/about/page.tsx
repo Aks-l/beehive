@@ -6,9 +6,10 @@ import no from '@text/about/no.json'
 import en from '@text/about/en.json'
 import { cookies } from 'next/headers'
 import config from '@config'
+import { normalizeLang } from '@utils/lang'
 
 export default async function About() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     return (

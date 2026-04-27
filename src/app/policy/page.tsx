@@ -2,9 +2,10 @@ import Contact from '@components/contact/contact'
 import no from '@text/policy/no.json'
 import en from '@text/policy/en.json'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 export default async function Policy() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     return (

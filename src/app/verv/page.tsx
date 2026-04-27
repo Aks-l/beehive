@@ -5,9 +5,10 @@ import no from '@text/verv/no.json'
 import en from '@text/verv/en.json'
 import { cookies } from 'next/headers'
 import config from '@config'
+import { normalizeLang } from '@utils/lang'
 
 export default async function Verv() {
-    const lang = ((await cookies()).get('lang')?.value || 'no') as Lang
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
     const slides = []
 
