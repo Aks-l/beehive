@@ -4,9 +4,12 @@ import no from '@text/landing/no.json'
 import en from '@text/landing/en.json'
 import Calendar from '@components/svg/symbols/calendar'
 import School from '@components/svg/symbols/school'
+import { cookies } from 'next/headers'
 import clsx from '@utils/clsx'
+import { normalizeLang } from '@utils/lang'
 
-export default function LandingPage({ lang }: { lang: Lang }) {
+export default async function LandingPage() {
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
     return (

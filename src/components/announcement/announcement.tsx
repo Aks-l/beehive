@@ -2,6 +2,7 @@ import MarkdownRender from '@components/markdownrender/markdownRender'
 import AnnouncementDismiss from './announcementDismiss'
 import { ArrowRight, Megaphone } from 'lucide-react'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
 const announcementText: Record<Lang, {
     banner: string
@@ -50,8 +51,9 @@ gives us the opportunity to organize even more and better activities
 const recipientUrl = 'https://www.norsk-tipping.no/grasrotandelen/din-mottaker/811940372'
 const dismissCookieName = 'dismissAnnouncementGrasrot'
 
-export default async function Announcement({ lang }: { lang: Lang }) {
+export default async function Announcement() {
     const cookieStore = await cookies()
+    const lang = normalizeLang(cookieStore.get('lang')?.value)
     const dismissed = cookieStore.get(dismissCookieName)?.value === 'true'
 
     if (dismissed) {

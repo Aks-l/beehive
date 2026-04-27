@@ -4,9 +4,11 @@ import en from '@text/landing/en.json'
 import Link from 'next/link'
 import config from '@config'
 import { cookies } from 'next/headers'
+import { normalizeLang } from '@utils/lang'
 
-export default async function SmallInfo({ lang }: { lang: Lang }) {
+export default async function SmallInfo() {
     const theme = (await cookies()).get('theme')?.value || 'dark'
+    const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
     const readMoreLinkClassName = 'mt-4 p-[.7rem_1rem_.7rem_0] text-[1.3rem] w-fit block link link--primary relative '
         + 'after:content-[""] after:absolute after:w-[0.8em] after:h-[0.8em] after:bottom-[0.4em] after:right-[0.4em] '
