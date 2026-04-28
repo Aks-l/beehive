@@ -3,10 +3,17 @@
 import Button from '@components/button/button'
 import clsx from '@utils/clsx'
 import { useSearchParams, usePathname } from 'next/navigation'
+import type { ReactNode } from 'react'
+
+type GroupToggleOption = {
+    name: string
+    text?: ReactNode
+    leadingIcon?: ReactNode
+    trailingIcon?: ReactNode
+}
 
 type GroupToggleProps = {
-    // eslint-disable-next-line
-    options: any,
+    options: GroupToggleOption[]
     defaultActiveOptionIndex?: number
     size: string
     groupVariant?: string
@@ -62,11 +69,10 @@ export default function GroupToggle({
             role='group'
             aria-label={ariaLabel}
         >
-            {/* eslint-disable-next-line */}
-            {options.map((option: any, index: number) => {
+            {options.map((option, index) => {
                 const isActive = activeOptionIndex === index
-                const { text, leadingIcon, trailingIcon, ...restButtonProps } = option
-                const isIconOnly = !text && (leadingIcon || trailingIcon)
+                const { text, leadingIcon, trailingIcon } = option
+                const isIconOnly = !text && Boolean(leadingIcon || trailingIcon)
                 const isFirst = index === 0
                 const isLast = index === options.length - 1
                 const activeStateClass = isActive
@@ -107,7 +113,6 @@ export default function GroupToggle({
                         trailingIcon={trailingIcon}
                         aria-pressed={isActive}
                         active={isActive}
-                        {...restButtonProps}
                     >
                         {text}
                     </Button>
