@@ -8,7 +8,10 @@ import { cookies } from 'next/headers'
 import { normalizeLang } from '@utils/lang'
 
 export default async function JobadsPreview() {
-    const jobads = await getJobs(null, null, null, null, 3, 0)
+    const jobadsResponse = await getJobs(null, null, null, null, 3, 0)
+    const jobads = typeof jobadsResponse === 'string' || !Array.isArray(jobadsResponse.jobs)
+        ? []
+        : jobadsResponse.jobs
     const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
@@ -34,20 +37,19 @@ export default async function JobadsPreview() {
                         </span>
                     </Link>
                 </div>
-                {typeof jobads !== 'string' && Array.isArray(jobads.jobs) && jobads.jobs.length > 0 && (
+                {jobads.length > 0 && (
                     <ul
                         className='relative grid grid-flow-col list-none overflow-auto
                             p-[0_1rem_1rem_1rem] snap-x snap-mandatory 400px:gap-4
                             800px:grid-cols-2 800px:grid-flow-row-dense 800px:gap-8
                             1000px:grid-cols-3 1000px:gap-4 1000px:p-0'
                     >
-                        {/* eslint-disable-next-line */}
-                        {jobads.jobs.map((e: any) => (
-                            <li key={e.id} className='snap-center w-[80vw] max-w-88 min-w-72 800px:w-full 800px:max-w-md 1000px:m-[0_auto]'>
-                                <JobadCard jobad={e} />
+                        {jobads.map((jobad) => (
+                            <li key={jobad.id} className='snap-center w-[80vw] max-w-88 min-w-72 800px:w-full 800px:max-w-md 1000px:m-[0_auto]'>
+                                <JobadCard jobad={jobad} />
                             </li>
                         ))}
-                        {jobads.jobs.length > 2 && <EndCard path='/career' />}
+                        {jobads.length > 2 && <EndCard path='/career' />}
                     </ul>
                 )}
             </section>
