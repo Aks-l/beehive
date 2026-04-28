@@ -1,27 +1,64 @@
+export type FilterType = 'check' | 'tag'
+export type FilterLabel = Record<Lang, string>
 
+export type FilterOption = {
+    id: string
+    label: FilterLabel
+    count: number
+}
 
-// eslint-disable-next-line
-export default function prepFilter(data: any, id: string, label: any, idKey = 'id', getLabel: any, countKey = 'count', type: any, showCount = false) {
-    const filters = {}
+export type FilterDefinition = {
+    id: string
+    label: FilterLabel
+    filters: Record<string, FilterOption>
+    type: FilterType
+    showCount: boolean
+}
 
-    if (data && typeof data === 'object') {
-        for (const value of Object.values(data)) {
-            // @ts-ignore
-            filters[value[idKey]] = {
-                // @ts-ignore
-                id: value[idKey],
-                label: getLabel(value),
-                // @ts-ignore
-                count: value[countKey] || 1,
-            }
+export type FilterSourceValue = Record<string, unknown>
+
+export default function prepFilter(
+    data: unknown,
+    id: string,
+    label: FilterLabel,
+    idKey = 'id',
+    getLabel: (value: FilterSourceValue) => FilterLabel,
+    countKey = 'count',
+    type: FilterType,
+    showCount = false
+): FilterDefinition {
+    const filters: Record<string, FilterOption> = {}
+
+    for (const value of getFilterValues(data)) {
+        const optionId = String(value[idKey] ?? '')
+        if (!optionId) {
+            continue
+        }
+
+        filters[optionId] = {
+            id: optionId,
+            label: getLabel(value),
+            count: Number(value[countKey] || 1),
         }
     }
 
     return {
-        id: id,
-        label: label,
-        filters: filters,
-        type: type,
-        showCount: showCount
+        id,
+        label,
+        filters,
+        type,
+        showCount
     }
+}
+
+function getFilterValues(data: unknown): FilterSourceValue[] {
+    if (!data || typeof data !== 'object') {
+        return []
+    }
+
+    return Object.values(data).filter(isFilterSourceValue)
+}
+
+function isFilterSourceValue(value: unknown): value is FilterSourceValue {
+    return Boolean(value && typeof value === 'object' && !Array.isArray(value))
 }

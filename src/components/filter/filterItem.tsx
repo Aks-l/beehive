@@ -4,10 +4,13 @@ import FilterGroup from '@components/filter/filter'
 import Button from '@components/button/button'
 import List from '@components/svg/symbols/list'
 import { useState } from 'react'
+import type { FilterDefinition } from './prepFilter'
 
+type FilterItemProps = {
+    filterData?: Record<string, FilterDefinition> | null
+}
 
-// eslint-disable-next-line
-export default function FilterItem({filterData}:{filterData: any}) {
+export default function FilterItem({filterData}: FilterItemProps) {
 
     const [isFilterOpen, setIsFilterOpen] = useState(false)
 
@@ -17,7 +20,6 @@ export default function FilterItem({filterData}:{filterData: any}) {
 
     return(
         <>
-            {/* @ts-ignore */}
             <Button
                 href=''
                 variant='secondary-outlined'

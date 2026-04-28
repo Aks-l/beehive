@@ -1,6 +1,6 @@
 import JobadsListItem from '@components/jobad/jobadsListItem'
 import Alert from '@components/alert/alert'
-import prepFilter from '@components/filter/prepFilter'
+import prepFilter, { type FilterDefinition, type FilterSourceValue } from '@components/filter/prepFilter'
 import { getJobs, getJobCityFilters, getJobSkillFilters, getJobJobtypeFilters } from '@utils/api'
 import no from '@text/jobadList/no.json'
 import en from '@text/jobadList/en.json'
@@ -18,20 +18,16 @@ export default async function Jobads({ searchParams }: { searchParams: Promise<{
     const lang = normalizeLang((await cookies()).get('lang')?.value)
     const text = lang === 'no' ? no : en
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { skills?: any[]; cities?: any[]; jobtypes?: any[] } = {}
+    const response: Record<string, FilterDefinition> = {}
 
     const jobtypeFilters = await getJobTypeFilters()
-    // @ts-ignore
-    if (jobtypeFilters) response['jobtypes'] = jobtypeFilters
+    if (jobtypeFilters) response.jobtypes = jobtypeFilters
 
     const cityFilters = await getCityFilters()
-    // @ts-ignore
-    if (cityFilters) response['cities'] = cityFilters
+    if (cityFilters) response.cities = cityFilters
 
     const skillFilters = await getSkillFilters()
-    // @ts-ignore
-    if (skillFilters) response['skills'] = skillFilters
+    if (skillFilters) response.skills = skillFilters
 
     const limit = 10
 
@@ -68,20 +64,20 @@ export default async function Jobads({ searchParams }: { searchParams: Promise<{
 }
 
 function getLabelKey(key: string) {
-    // eslint-disable-next-line
-    return (v: any) => {
+    return (value: FilterSourceValue) => {
+        const label = String(value[key] ?? '')
+
         return {
-            no: v[key],
-            en: v[key],
+            no: label,
+            en: label,
         }
     }
 }
 
-// eslint-disable-next-line
-function getJobTypeLabel(v: any) {
+function getJobTypeLabel(value: FilterSourceValue) {
     return {
-        no: v.name_no,
-        en: v.name_en,
+        no: String(value.name_no ?? ''),
+        en: String(value.name_en ?? value.name_no ?? ''),
     }
 }
 

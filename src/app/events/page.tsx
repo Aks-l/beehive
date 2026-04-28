@@ -1,6 +1,6 @@
 import EventListItem from '@components/event/eventItem'
 import GroupToggle from '@components/grouptoggle/groupToggle'
-import prepFilter from '@components/filter/prepFilter'
+import prepFilter, { type FilterDefinition, type FilterSourceValue } from '@components/filter/prepFilter'
 import no from '@text/eventList/no.json'
 import en from '@text/eventList/en.json'
 import GridView from '@components/svg/symbols/gridView'
@@ -39,13 +39,11 @@ export default async function Page({searchParams}: PageProps) {
         })
     const { currentWeekEvents, nextWeekEvents, futureEvents } = groupEvents(events)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const response: { categories?: any[] } = {}
+    const response: Record<string, FilterDefinition> = {}
 
     const categoryFilters = await getCategoryFilters()
     if (categoryFilters) {
-        // @ts-ignore
-        response['categories'] = categoryFilters
+        response.categories = categoryFilters
     }
 
     return (
@@ -54,7 +52,6 @@ export default async function Page({searchParams}: PageProps) {
                 <h1 className='heading-1 heading-1--top-left-corner'>{text.title}</h1>
             </div>
             <div className='hidden 1000px:flex justify-end pb-4 page-section--normal'>
-                {/* @ts-ignore */}
                 <div className='justify-end'>
                     <GroupToggle
                         options={[
@@ -252,14 +249,13 @@ export default async function Page({searchParams}: PageProps) {
 }
 
 function getLabelKeyWithLang(key: string) {
-    // eslint-disable-next-line
-    return (v: any) => {
-        const vNo = v[key + '_no']
-        const vEn = v[key + '_en'] || vNo
+    return (value: FilterSourceValue) => {
+        const labelNo = String(value[`${key}_no`] ?? '')
+        const labelEn = String(value[`${key}_en`] ?? labelNo)
 
         return {
-            no: vNo,
-            en: vEn,
+            no: labelNo,
+            en: labelEn,
         }
     }
 }

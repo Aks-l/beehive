@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState, useEffect } from 'react'
+import { type ChangeEvent, useEffect, useRef, useState } from 'react'
 import Button from '@components/button/button'
 import no from '@text/filter/no.json'
 import en from '@text/filter/en.json'
@@ -10,16 +10,21 @@ import { getCookie } from 'utilbee/utils'
 import { language } from '../langtoggle/langToggle'
 import { usePathname, useRouter } from 'next/navigation'
 import clsx from '@utils/clsx'
+import type { FilterDefinition, FilterLabel, FilterOption, FilterType } from './prepFilter'
 
-// eslint-disable-next-line
-export default function FilterGroup({ filters, close }: any) {
+type FilterGroupProps = {
+    filters?: Record<string, FilterDefinition>
+    close?: () => void
+}
+
+type SelectedFilters = Record<string, Set<string>>
+
+export default function FilterGroup({ filters = {}, close }: FilterGroupProps) {
     const router = useRouter()
     const pathname = usePathname()
-    // const searchParams = useSearchParams()
-
-    const selectedFilters = useRef({})
+    const selectedFilters = useRef<SelectedFilters>({})
     const [ resetTrigger, setResetTrigger ] = useState(false)
-    const [lang, setLang] = useState('no')
+    const [lang, setLang] = useState<Lang>('no')
     const [text, setText] = useState(no)
 
     useEffect(() => {
@@ -29,7 +34,7 @@ export default function FilterGroup({ filters, close }: any) {
 
     useEffect(() => {
         const temp = getCookie('lang')
-        setLang( temp || 'no')
+        setLang(temp === 'en' ? 'en' : 'no')
     }, [language])
 
     function onReset() {
@@ -38,13 +43,13 @@ export default function FilterGroup({ filters, close }: any) {
         apply()
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    function onApply(f: any){
+    function onApply(selected: Record<string, string>) {
         const params = new URLSearchParams()
 
-        Object.entries(f).forEach(([filterGroupItemID, filterGroupItem]) => {
-            if (Object.values(f).length > 0)
-                params.set(filterGroupItemID, filterGroupItem as string)
+        Object.entries(selected).forEach(([filterGroupItemID, filterGroupItem]) => {
+            if (filterGroupItem) {
+                params.set(filterGroupItemID, filterGroupItem)
+            }
         })
 
         router.push(pathname+'?'+params.toString())
@@ -56,30 +61,26 @@ export default function FilterGroup({ filters, close }: any) {
     }
 
     function apply() {
-        const f = {}
+        const selected: Record<string, string> = {}
 
         Object.entries(selectedFilters.current).forEach(([filterGroupItemID, filterGroupItem]) => {
-            // @ts-ignore
             const choices = Array.from(filterGroupItem)
-            // @ts-ignore
-            if (choices.length) f[filterGroupItemID] = Array.from(filterGroupItem)
+            if (choices.length) {
+                selected[filterGroupItemID] = choices.join(',')
+            }
         })
 
-        onApply(f)
+        onApply(selected)
     }
 
-    // @ts-ignore
-    function onSelect(filterGroupItemID, filterID, isSelected) {
+    function onSelect(filterGroupItemID: string, filterID: string, isSelected: boolean) {
         if (filterGroupItemID in selectedFilters.current) {
             if (!isSelected) {
-                // @ts-ignore
                 selectedFilters.current[filterGroupItemID].delete(filterID)
             } else {
-                // @ts-ignore
                 selectedFilters.current[filterGroupItemID].add(filterID)
             }
         } else if (isSelected) {
-            // @ts-ignore
             selectedFilters.current[filterGroupItemID] = new Set([filterID])
         }
 
@@ -87,35 +88,28 @@ export default function FilterGroup({ filters, close }: any) {
     }
 
     const filterKeys = Object.entries(filters)
-    const actualFilters = Array.isArray(filterKeys) ? filterKeys : []
 
     return (
         <div className='@container/filter-groups flex min-h-20 flex-col gap-y-8'>
-            {
-                // eslint-disable-next-line
-                actualFilters.map(([filterGroupItemID, filterGroupItem]) => {
-                    // @ts-ignore
-                    if(Object.values(filterGroupItem.filters).length > 0) {
-                        return (
-                            <Filter
-                                key={filterGroupItemID}
-                                // @ts-ignore
-                                label={filterGroupItem.label}
-                                // @ts-ignore
-                                showCount={filterGroupItem.showCount}
-                                // @ts-ignore
-                                filter={Object.values(filterGroupItem.filters)}
-                                // @ts-ignore
-                                type={filterGroupItem.type}
-                                onSelect={getFilterGroupItemOnSelectWithin(onSelect, filterGroupItemID)}
-                                resetTrigger={resetTrigger}
-                            />
-                        )
-                    }
-                })
-            }
+            {filterKeys.map(([filterGroupItemID, filterGroupItem]) => {
+                const filterOptions = Object.values(filterGroupItem.filters)
+                if (!filterOptions.length) {
+                    return null
+                }
+
+                return (
+                    <Filter
+                        key={filterGroupItemID}
+                        label={filterGroupItem.label}
+                        showCount={filterGroupItem.showCount}
+                        filter={filterOptions}
+                        type={filterGroupItem.type}
+                        onSelect={getFilterGroupItemOnSelectWithin(onSelect, filterGroupItemID)}
+                        resetTrigger={resetTrigger}
+                    />
+                )
+            })}
             <div className='mt-auto flex justify-between gap-4'>
-                {/* @ts-ignore */}
                 <Button
                     href={pathname+'?'+params()}
                     target='_self'
@@ -128,7 +122,6 @@ export default function FilterGroup({ filters, close }: any) {
                     {text.reset}
                 </Button>
                 {close &&
-                // @ts-ignore
                     <Button
                         href=''
                         target='_self'
@@ -143,24 +136,33 @@ export default function FilterGroup({ filters, close }: any) {
         </div>
     )
 }
-// eslint-disable-next-line
-function getFilterGroupItemOnSelectWithin(onSelect: any, filterGroupItemID: any) {
-    // eslint-disable-next-line
-    return (filterID: any, isSelected: any) => {
+
+function getFilterGroupItemOnSelectWithin(
+    onSelect: (filterGroupItemID: string, filterID: string, isSelected: boolean) => void,
+    filterGroupItemID: string
+) {
+    return (filterID: string, isSelected: boolean) => {
         onSelect(filterGroupItemID, filterID, isSelected)
     }
 }
 
-// eslint-disable-next-line
-function getFilterItemOnSelect(onSelect: any, filterID: any) {
-    // eslint-disable-next-line
-    return (isSelected: any) => {
+function getFilterItemOnSelect(onSelect: (filterID: string, isSelected: boolean) => void, filterID: string) {
+    return (isSelected: boolean) => {
         onSelect(filterID, isSelected)
     }
 }
 
-// eslint-disable-next-line
-function CheckTag({ id, label, checked, onChange }: any) {
+function CheckTag({
+    id,
+    label,
+    checked,
+    onChange
+}: {
+    id: string
+    label: string
+    checked: boolean
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void
+}) {
     return (
         <label className='group relative w-fit cursor-pointer'>
             <input
@@ -191,8 +193,19 @@ function CheckTag({ id, label, checked, onChange }: any) {
     )
 }
 
-// eslint-disable-next-line
-function CheckBox({ id, label, count = false, checked, onChange }: any) {
+function CheckBox({
+    id,
+    label,
+    count = false,
+    checked,
+    onChange
+}: {
+    id: string
+    label: string
+    count?: number | false
+    checked: boolean
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void
+}) {
     return (
         <label className='group grid w-fit cursor-pointer grid-cols-[max-content_1fr]'>
             <input
@@ -223,23 +236,35 @@ function CheckBox({ id, label, count = false, checked, onChange }: any) {
     )
 }
 
-// eslint-disable-next-line
-function Filter({ label, filter, showCount, onSelect, type, resetTrigger }: any) {
-    const [lang, setLang] = useState('no')
+function Filter({
+    label,
+    filter,
+    showCount,
+    onSelect,
+    type,
+    resetTrigger
+}: {
+    label: FilterLabel
+    filter: FilterOption[]
+    showCount: boolean
+    onSelect: (filterID: string, isSelected: boolean) => void
+    type: FilterType
+    resetTrigger: boolean
+}) {
+    const [lang, setLang] = useState<Lang>('no')
     const itemContainerClassName = type === 'check'
         ? 'mt-4 flex flex-col gap-y-2'
         : 'mt-[.7rem] flex flex-row flex-wrap gap-[.7rem]'
 
     useEffect(() => {
         const temp = getCookie('lang')
-        setLang( temp || 'no')
+        setLang(temp === 'en' ? 'en' : 'no')
     }, [language])
 
     return (
         <div className='filter'>
             <div className='text-[.9rem] font-medium tracking-[.15em] text-(--color-text-discreet)'>{ label[lang] }</div>
             <div className={itemContainerClassName}>
-                {/* @ts-ignore */}
                 {filter.sort((a, b) => b.count - a.count).map((filterItem, index) => {
                     return (
                         <FilterItem
@@ -257,10 +282,21 @@ function Filter({ label, filter, showCount, onSelect, type, resetTrigger }: any)
     )
 }
 
-// eslint-disable-next-line
-function FilterItem({ filter, showCount, onSelect, resetTrigger, type }: any) {
+function FilterItem({
+    filter,
+    showCount,
+    onSelect,
+    resetTrigger,
+    type
+}: {
+    filter: FilterOption
+    showCount: boolean
+    onSelect: (isSelected: boolean) => void
+    resetTrigger: boolean
+    type: FilterType
+}) {
     const [ checked, setChecked ] = useState(false)
-    const [lang, setLang] = useState('no')
+    const [lang, setLang] = useState<Lang>('no')
 
     useEffect(() => {
         setChecked(false)
@@ -268,35 +304,31 @@ function FilterItem({ filter, showCount, onSelect, resetTrigger, type }: any) {
 
     useEffect(() => {
         const temp = getCookie('lang')
-        setLang( temp || 'no')
+        setLang(temp === 'en' ? 'en' : 'no')
     }, [language])
 
-    function select() {
-        setChecked(!checked)
-        onSelect(!checked)
+    function select(isSelected: boolean) {
+        setChecked(isSelected)
+        onSelect(isSelected)
     }
 
     if(type == 'tag') {
         return (
             <CheckTag
-            // @ts-ignore
                 onChange={e => select(e.target.checked)}
                 id={filter.label[lang]}
                 label={filter.label[lang]}
                 checked={checked}
-                // @ts-ignore
-                count={showCount ? filter.count : false}
             />
         )
     }
     return (
-        // @ts-ignore
         <CheckBox
-        // @ts-ignore
             onChange={e => select(e.target.checked)}
             id={filter.label[lang]}
             label={filter.label[lang]}
             checked={checked}
+            count={showCount ? filter.count : false}
         />
     )
 }
