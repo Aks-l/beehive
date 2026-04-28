@@ -2,8 +2,6 @@
 
 import { useRef, useState, useEffect } from 'react'
 import Button from '@components/button/button'
-import CheckBox from '@components/checkbox/checkbox'
-import CheckTag from '@components/checktag/checktag'
 import no from '@text/filter/no.json'
 import en from '@text/filter/en.json'
 import KeyboardArrowUp from '@components/svg/symbols/keyboardArrowUp'
@@ -11,6 +9,7 @@ import Replay from '@components/svg/symbols/replay'
 import { getCookie } from 'utilbee/utils'
 import { language } from '../langtoggle/langToggle'
 import { usePathname, useRouter } from 'next/navigation'
+import clsx from '@utils/clsx'
 
 // eslint-disable-next-line
 export default function FilterGroup({ filters, close }: any) {
@@ -158,6 +157,70 @@ function getFilterItemOnSelect(onSelect: any, filterID: any) {
     return (isSelected: any) => {
         onSelect(filterID, isSelected)
     }
+}
+
+// eslint-disable-next-line
+function CheckTag({ id, label, checked, onChange }: any) {
+    return (
+        <label className='group relative w-fit cursor-pointer'>
+            <input
+                className='peer absolute h-0 w-0 opacity-0'
+                type='checkbox'
+                id={id}
+                checked={checked}
+                onChange={onChange}
+            />
+            <div
+                className={clsx(
+                    'relative cursor-pointer rounded-[0.2em]',
+                    'bg-(--color-checktag-bg) px-[0.9em] py-[0.4em]',
+                    'leading-[1.3em] text-(--color-checktag-text) transition-all duration-150',
+                    'group-hover:brightness-95 peer-checked:bg-(--color-btn-primary-bg)',
+                    'peer-checked:pr-[0.6rem] peer-checked:pl-[1.6rem]',
+                    'peer-checked:text-(--color-text-on-primary)',
+                    'peer-focus-visible:ring-[0.1rem] peer-focus-visible:ring-[rgb(0,42,255)]',
+                    'before:absolute before:left-2 before:top-2',
+                    'before:h-[0.7rem] before:w-[0.3rem] before:rotate-45',
+                    'before:border-r-[0.18rem] before:border-b-[0.18rem] before:border-white before:content-[\'\']',
+                    'before:opacity-0 peer-checked:before:opacity-100'
+                )}
+            >
+                {label}
+            </div>
+        </label>
+    )
+}
+
+// eslint-disable-next-line
+function CheckBox({ id, label, count = false, checked, onChange }: any) {
+    return (
+        <label className='group grid w-fit cursor-pointer grid-cols-[max-content_1fr]'>
+            <input
+                className='peer absolute h-0 w-0 cursor-pointer opacity-0'
+                type='checkbox'
+                id={id}
+                checked={checked}
+                onChange={onChange}
+            />
+            <span
+                className={clsx(
+                    'relative mr-2 inline-block h-[1.4rem] w-[1.4rem]',
+                    'rounded-[0.1rem] border-[0.13rem] border-(--color-checkbox-outline)',
+                    'transition-all duration-100 ease-in group-hover:bg-(--color-checkbox-bg-hover)',
+                    'peer-checked:border-(--color-primary) peer-checked:bg-(--color-primary)',
+                    'peer-focus-visible:ring-[0.1rem] peer-focus-visible:ring-[rgb(0,42,255)]',
+                    'after:absolute after:left-1/2 after:top-[45%] after:h-[0.8rem] after:w-[0.4rem]',
+                    'after:-translate-x-1/2 after:-translate-y-1/2 after:rotate-45',
+                    'after:border-r-[0.18rem] after:border-b-[0.18rem] after:border-(--color-text-on-primary)',
+                    'after:content-[\'\'] after:opacity-0 peer-checked:after:opacity-100'
+                )}
+            />
+            <div>
+                {label}
+                {count && <span className='text-(--color-text-discreet)'> ({count})</span>}
+            </div>
+        </label>
+    )
 }
 
 // eslint-disable-next-line

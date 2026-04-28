@@ -1,10 +1,11 @@
+import Card from './card'
 import TileMap from './tileMap'
 import no from '@text/music/no.json'
 import en from '@text/music/en.json'
 import { Users } from './users'
-import { useState } from 'react'
+import { type Dispatch, type SetStateAction, useState } from 'react'
 import config from '@config'
-import { Activity } from './activity'
+import ListensPerDayChart from './listensPerDay'
 
 type MostPlayedProps = {
     lang: Lang
@@ -16,6 +17,39 @@ type MostPlayedProps = {
     mostSkippingUsers: MusicSkipUser[]
     currentlyListening: CurrentlyListening[]
     activity: SongDay[]
+}
+
+function Activity({
+    text,
+    activity,
+    dropdown = false,
+    open = true,
+    setOpen,
+}: {
+    text: {
+        songs_played: string
+        most_played: string
+        listens: string
+        no_data: string
+    }
+    activity: SongDay[]
+    dropdown?: boolean
+    open?: boolean
+    setOpen?: Dispatch<SetStateAction<boolean>>
+}) {
+    return (
+        <Card
+            text={text.songs_played}
+            dropdown={dropdown}
+            open={open}
+            setOpen={setOpen}
+            removePadding={true}
+        >
+            <div className='gap-2 w-full px-4'>
+                <ListensPerDayChart data={activity} text={text} />
+            </div>
+        </Card>
+    )
 }
 
 export default function MostPlayed({

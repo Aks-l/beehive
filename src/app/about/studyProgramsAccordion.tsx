@@ -1,12 +1,67 @@
 'use client'
 
-import { AccordionContent, AccordionItem } from '@components/accordion/accordion'
-import { useState } from 'react'
+import { type Dispatch, type ReactNode, type SetStateAction, useState } from 'react'
 import Link from 'next/link'
 import no from '@text/about/no.json'
 import en from '@text/about/en.json'
 import ArrowOutward from '@components/svg/symbols/arrowOutward'
+import ArrowRight from '@components/svg/symbols/arrowRight'
 import clsx from '@utils/clsx'
+
+function AccordionItem({
+    id,
+    title,
+    activeAccordionItem,
+    setActiveAccordionItem
+}: {
+    id: string
+    title: string
+    activeAccordionItem: string
+    setActiveAccordionItem: Dispatch<SetStateAction<string>>
+}) {
+    function handleClick() {
+        setActiveAccordionItem(activeAccordionItem === id ? 'none' : id)
+    }
+
+    return (
+        <li
+            onClick={handleClick}
+            className='flex cursor-pointer flex-row items-center p-2 text-[1.3rem]
+                transition-all duration-200 hover:bg-(--color-bg-surface-raised)
+                800px:p-4 800px:text-2xl'
+        >
+            <ArrowRight
+                className={clsx(
+                    'ml-[-0.2rem] mr-[0.4rem] h-10 w-10 shrink-0 fill-(--color-text-primary)',
+                    'transition-transform duration-300',
+                    activeAccordionItem === id && 'rotate-90'
+                )}
+            />
+            {title}
+        </li>
+    )
+}
+
+function AccordionContent({
+    id,
+    activeAccordionItem,
+    children
+}: {
+    id: string
+    activeAccordionItem: string
+    children: ReactNode
+}) {
+    return (
+        <div
+            className={clsx(
+                'max-h-0 overflow-hidden transition-all duration-500 ease-[cubic-bezier(0,1,0,1)]',
+                activeAccordionItem === id && 'h-auto max-h-400 ease-[cubic-bezier(1,0,1,0)]'
+            )}
+        >
+            {children}
+        </div>
+    )
+}
 
 export default function StudyProgramsAccordion({ lang }: { lang: Lang }) {
     const [activeAccordionItem, setActiveAccordionItem] = useState('bachelor')

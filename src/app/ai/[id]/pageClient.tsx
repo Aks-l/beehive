@@ -9,7 +9,6 @@ import {
 } from '@components/gpt/useGptPageState'
 import { useGpt } from '@components/gpt/provider'
 import findHighestTPSClient from '@utils/findHighestTPSClient'
-import Footer from '@components/gpt/footer'
 import Prompt from '@components/gpt/prompt'
 import Messages from '@components/gpt/messages'
 import UnavailableBanner from '@components/gpt/unavailableBanner'
@@ -199,12 +198,27 @@ export default function PageClient({
                         text={text}
                     />
 
-                    <Footer
-                        isConnected={isConnected}
-                        text={text}
-                        chatSession={chatSession}
-                        isLoadingChat={isLoadingChat}
-                    />
+                    <div className='w-full px-5 pb-2 1000px:px-8'>
+                        <div className='mx-auto h-12 w-full max-w-5xl'>
+                            <div className='flex h-full items-center justify-center gap-2 rounded-lg bg-(--color-bg-surface) px-3'>
+                                <div className='flex items-center gap-3 text-sm text-(--color-text-discreet)'>
+                                    <span
+                                        className={`h-2.5 w-2.5 rounded-full
+                                            ${isConnected ? 'bg-emerald-500' : 'bg-red-500'}`}
+                                    />
+                                    {isConnected ? text.connected : text.reconnecting}
+                                </div>
+                                <div className='h-[70%] w-px bg-(--color-bg-surface-raised)' />
+                                <p className='truncate text-sm text-(--color-text-discreet)'>
+                                    {chatSession
+                                        ? `${text.agent}: ${chatSession.clientName}`
+                                        : isLoadingChat
+                                            ? text.loadingConversation
+                                            : text.notFound}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </div>
