@@ -63,7 +63,7 @@ function AccordionContent({
     )
 }
 
-export default function StudyProgramsAccordion({ lang }: { lang: Lang }) {
+export default function StudyPrograms({ lang }: { lang: Lang }) {
     const [activeAccordionItem, setActiveAccordionItem] = useState('bachelor')
     const text = lang === 'no' ? no : en
     const contentItemClassName = 'list-none px-4 py-2 pl-[3.3rem] text-base 800px:pl-[3.8rem]'

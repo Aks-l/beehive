@@ -1,5 +1,5 @@
 import CommitteeTabs from './committeeTabs'
-import StudyProgramsAcordion from './studyProgramsAccordion'
+import StudyPrograms from './studyPrograms'
 import DecoratedPicture from '@components/images/decoratedpicture/decoratedPicture'
 import Contact from '@components/contact/contact'
 import no from '@text/about/no.json'
@@ -24,7 +24,7 @@ export default async function About() {
                 />
                 <div className={'flex flex-wrap items-start justify-center gap-[5%] ' +
                     '800px:flex-nowrap 800px:p-[1rem_0] about-intro_grid-container'}>
-                    <StudyProgramsAcordion lang={lang} />
+                    <StudyPrograms lang={lang} />
                     <DecoratedPicture
                         imgUrl={`${config.url.cdn}/img/board/group/styret_2026.jpg`}
                         variant={3}
